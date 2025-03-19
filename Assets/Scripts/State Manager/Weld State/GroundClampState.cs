@@ -37,18 +37,18 @@ public class GroundClampState : BaseWeldState
     {
         if (clampInserted)
         {
-
+            stateManager.TransitionToState(this);
         }
     }
 
-    private void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        if (args.interactorObject.transform.gameObject == GroundClamp)
-        {
-            clampInserted = true;
-        }
+    //private void OnSelectEntered(SelectEnterEventArgs args)
+    //{
+    //    if (args.interactorObject.transform.gameObject == GroundClamp)
+    //    {
+    //        clampInserted = true;
+    //    }
         
-    }
+    //}
 
     private void OnSelectExited(SelectExitEventArgs args)
     {
@@ -57,4 +57,6 @@ public class GroundClampState : BaseWeldState
             clampInserted = false;
         }
     }
+
+   
 }
