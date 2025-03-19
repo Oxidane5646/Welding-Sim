@@ -35,8 +35,10 @@ public class GroundClampState : BaseWeldState
 
     public override void UpdateState(WeldStateManager stateManager)
     {
-        
-        
+        if (clampInserted)
+        {
+
+        }
     }
 
     private void OnSelectEntered(SelectEnterEventArgs args)
