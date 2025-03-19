@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4feb1e76a9a01d1428ea83deeb5adb67, type: 3}
+  m_Name: WeldData
+  m_EditorClassIdentifier: 
+  weldObjects:
+  - weldObjectType: 2
+    prefab: {fileID: 8388902946872109914, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+      type: 3}
+  weldSetups:
+  - weldSetupType: 2
+    prefab: {fileID: 7498781816408053189, guid: f1096790f4ae69643a96aea9c98ab735,
+      type: 3}
