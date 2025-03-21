@@ -19,7 +19,7 @@ public class GroundClampState : BaseWeldState
     {
         panel.SetActive(true);
 
-        SetupSocketInteractor(GroundClampSocket, socketInteractor);
+        socketInteractor = SetupSocketInteractor(GroundClampSocket);
     }
 
     public override void ExitState(WeldStateManager stateManager)
@@ -32,9 +32,18 @@ public class GroundClampState : BaseWeldState
 
     public override void UpdateState(WeldStateManager stateManager)
     {
+        if (CheckIfObjectIsInserted(GroundClamp))
+        {
+            clampInserted = true;
+        }
+        if (CheckIfObjectIsRemoved(GroundClamp))
+        {
+            clampInserted = false;
+        }
+
         if (clampInserted)
         {
-            stateManager.TransitionToState(this);
+            stateManager.TransitionToState(stateManager.wearPPEState);
         }
     }
 }

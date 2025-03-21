@@ -21,7 +21,7 @@ public class InsertElectrodeState : BaseWeldState
     {
         panel.SetActive(true);
 
-        SetupSocketInteractor(weldTorchHead, socketInteractor);
+        socketInteractor = SetupSocketInteractor(weldTorchHead);
 
     }
 
@@ -34,10 +34,10 @@ public class InsertElectrodeState : BaseWeldState
 
     public override void UpdateState(WeldStateManager stateManager)
     {
-        bool objectsAreGrabbed = stateManager.grabObjectsState.objectsAreGrabbed;
+        bool objectsAreGrabbed = stateManager.grabObjectsState.GetObjectsAreGrabbed();
 
-        CheckIfObjectIsInserted(electrode, electrodeInserted);
-        CheckIfObjectIsRemoved(electrode, electrodeInserted);
+        if (CheckIfObjectIsInserted(electrode)) electrodeInserted = true;
+        if (CheckIfObjectIsRemoved(electrode)) electrodeInserted = false;
 
         if (electrodeInserted)
         {
@@ -49,4 +49,9 @@ public class InsertElectrodeState : BaseWeldState
            stateManager.TransitionToState(stateManager.grabObjectsState);
         }
     }
+
+    public bool GetElectrodeInserted()
+    {
+        return electrodeInserted;
+    }   
 }

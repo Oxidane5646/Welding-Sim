@@ -28,24 +28,31 @@ public class GrabObjectsState : BaseWeldState
 
     public override void UpdateState(WeldStateManager stateManager) // what happend when we are in the state
     {
+        objectsAreGrabbed = ObejctsAreGrabbed();
+
         if (objectsAreGrabbed)
         {
             stateManager.TransitionToState(stateManager.insertElectrodeState);
         }
     }
 
-    public void ObejctsAreGrabbed()
+    public bool ObejctsAreGrabbed()
     {
         bool weldTorchGrabbed = weldTorchBody.GetComponent<XRGrabInteractable>().isSelected;
         bool electrodeGrabbed = electrode.GetComponent<XRGrabInteractable>().isSelected;
 
         if (weldTorchGrabbed && electrodeGrabbed)
         {
-            objectsAreGrabbed = true;
+            return true;
         }
-        objectsAreGrabbed =  false;
+        return  false;
     }
 
-    
+    public bool GetObjectsAreGrabbed()
+    {
+        return objectsAreGrabbed;
+    }
+
+
 
 }

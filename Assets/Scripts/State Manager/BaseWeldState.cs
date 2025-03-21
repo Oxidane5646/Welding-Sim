@@ -21,11 +21,13 @@ public abstract class BaseWeldState
     public abstract void ExitState(WeldStateManager stateManager);
     public abstract void UpdateState(WeldStateManager stateManager);
     
-    protected void SetupSocketInteractor(GameObject socket, XRSocketInteractor socketInteractor)
+    protected XRSocketInteractor SetupSocketInteractor(GameObject socket)
     {
-        socketInteractor = socket.GetComponent<XRSocketInteractor>();
+        XRSocketInteractor socketInteractor = socket.GetComponent<XRSocketInteractor>();
         socketInteractor.selectEntered.AddListener(OnSelectEntered);
         socketInteractor.selectExited.AddListener(OnSelectExited);
+
+        return socketInteractor;
     }
 
     protected void RemoveSocketInteractor(XRSocketInteractor socketInteractor)
@@ -44,20 +46,14 @@ public abstract class BaseWeldState
         socketExitedObject = args.interactorObject.transform.gameObject;
     }
 
-    protected void CheckIfObjectIsInserted(GameObject objectToCheck, bool objectInserted)
+    protected bool CheckIfObjectIsInserted(GameObject objectToCheck)
     {
-        if (socketEnteredObject == objectToCheck)
-        {
-            objectInserted = true;
-        }
+        return socketEnteredObject == objectToCheck;
     }
 
-    protected void CheckIfObjectIsRemoved(GameObject objectToCheck, bool objectInserted)
+    protected bool CheckIfObjectIsRemoved(GameObject objectToCheck)
     {
-        if (socketExitedObject == objectToCheck)
-        {
-            objectInserted = false;
-        }
+        return socketExitedObject == objectToCheck;
     }
 
 }

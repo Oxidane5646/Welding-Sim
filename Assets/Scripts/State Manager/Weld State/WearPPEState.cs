@@ -11,6 +11,9 @@ public class WearPPEState : BaseWeldState
     private XRSocketInteractor HelmetSocketInteractor;
     private XRSocketInteractor GlovesSocketInteractor;
 
+    public bool helmetWeared;
+    public bool glovesWeared;
+
     public WearPPEState(GameObject panel) : base(panel)
     {
 
@@ -20,8 +23,8 @@ public class WearPPEState : BaseWeldState
     {
         panel.SetActive(true);
 
-        SetupSocketInteractor(HelmetSocket , HelmetSocketInteractor);
-        SetupSocketInteractor(panel , GlovesSocketInteractor);
+        HelmetSocketInteractor = SetupSocketInteractor(HelmetSocket);
+        GlovesSocketInteractor = SetupSocketInteractor(panel);
     }
 
     public override void ExitState(WeldStateManager stateManager)
@@ -34,6 +37,6 @@ public class WearPPEState : BaseWeldState
 
     public override void UpdateState(WeldStateManager stateManager)
     {
-        
+
     }
 }

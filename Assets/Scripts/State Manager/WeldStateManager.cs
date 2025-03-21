@@ -17,11 +17,13 @@ public class WeldStateManager : MonoBehaviour
     public GameObject grabstatePanel;
     public GameObject electrodestatePanel;
     public GameObject groundClampstatePanel;
+    public GameObject wearPPEPanel;
 
     // State instances Declaration
     public GrabObjectsState grabObjectsState;
     public InsertElectrodeState insertElectrodeState;
     public GroundClampState groundClampState;
+    public WearPPEState wearPPEState;
 
     private void Start()
     {
@@ -29,6 +31,7 @@ public class WeldStateManager : MonoBehaviour
         grabObjectsState = new GrabObjectsState(grabstatePanel , weldTorchBody , electrode);
         insertElectrodeState = new InsertElectrodeState(electrodestatePanel , electrode , weldTorchHead);
         groundClampState = new GroundClampState(groundClampstatePanel);
+        wearPPEState = new WearPPEState(wearPPEPanel);
 
         // Set the default state
         currentState = grabObjectsState;

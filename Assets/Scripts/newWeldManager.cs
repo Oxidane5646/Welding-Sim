@@ -4,6 +4,9 @@ using UnityEngine.Windows;
 public class newWeldManager : MonoBehaviour
 {
     [SerializeField] WeldDatabase weldDatabase;
+    [SerializeField] UIManager uiManager;
+    [SerializeField] Transform weldObjectSpawn;
+    [SerializeField] Transform weldSetupSpawn;
 
     InputManager inputManager;
 
@@ -23,6 +26,10 @@ public class newWeldManager : MonoBehaviour
     Vector3 spawnPoint = Vector3.zero;
     RaycastHit hit;
 
+    private void Awake()
+    {
+        uiManager.onWeldObjectSelected += debugTest;
+    }
 
     private void Start()
     {
@@ -53,13 +60,13 @@ public class newWeldManager : MonoBehaviour
     {
         // Getting weldObject Data
         GameObject weldObjectPrefab = database.GetWeldObject(weldObjectType);
-        GameObject currentWeldObject = Instantiate(weldObjectPrefab , Vector3.zero , Quaternion.identity);
+        GameObject currentWeldObject = Instantiate(weldObjectPrefab , weldObjectSpawn.position , Quaternion.identity);
         currentJoinPlates = currentWeldObject.GetComponent<JoinPlates>();
 
 
         // Getting weldSetup Data
         GameObject weldSetupPrefab = database.GetWeldSetup(weldSetypType);
-        GameObject currentWeldSetup = Instantiate(weldSetupPrefab, Vector3.zero, Quaternion.identity);
+        GameObject currentWeldSetup = Instantiate(weldSetupPrefab, weldSetupSpawn.position , Quaternion.identity);
         currentWeldSpawner = currentWeldSetup.GetComponent<WeldSpawner>();
         rayReference = currentWeldSetup.GetComponentInChildren<RayReference>();
         weldParticles = currentWeldSetup.GetComponentInChildren<ParticleSystem>();
@@ -88,6 +95,12 @@ public class newWeldManager : MonoBehaviour
         {
             currentJoinPlates.ConnectPlates();
         }
+    }
+
+    private void debugTest(weldObjectType weldObjectType)
+    {
+        Debug.Log("Object event fired correctly");
+       
     }
 
     private void OnDestroy()
