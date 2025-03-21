@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class WearPPEState : BaseWeldState ,Isg
+public class WearPPEState : BaseWeldState
 {
     private GameObject HelmetSocket;
     private GameObject GlovesSocket;
@@ -20,16 +20,16 @@ public class WearPPEState : BaseWeldState ,Isg
     {
         panel.SetActive(true);
 
-        HelmetSocketInteractor = HelmetSocket.GetComponent<XRSocketInteractor>();
-        GlovesSocketInteractor = GlovesSocket.GetComponent<XRSocketInteractor>();
-
-
-
+        SetupSocketInteractor(HelmetSocket , HelmetSocketInteractor);
+        SetupSocketInteractor(panel , GlovesSocketInteractor);
     }
 
     public override void ExitState(WeldStateManager stateManager)
     {
         panel.SetActive(false);
+
+        RemoveSocketInteractor(HelmetSocketInteractor);
+        RemoveSocketInteractor(GlovesSocketInteractor);
     }
 
     public override void UpdateState(WeldStateManager stateManager)

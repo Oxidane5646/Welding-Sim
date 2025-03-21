@@ -21,9 +21,7 @@ public class InsertElectrodeState : BaseWeldState
     {
         panel.SetActive(true);
 
-        socketInteractor = weldTorchHead.GetComponent<XRSocketInteractor>();
-        socketInteractor.selectEntered.AddListener(OnSelectEntered);
-        socketInteractor.selectExited.AddListener(OnSelectExited);
+        SetupSocketInteractor(weldTorchHead, socketInteractor);
 
     }
 
@@ -31,13 +29,15 @@ public class InsertElectrodeState : BaseWeldState
     {
         panel.SetActive(false);
 
-        socketInteractor.selectEntered.RemoveListener(OnSelectEntered);
-        socketInteractor.selectExited.RemoveListener(OnSelectExited);
+        RemoveSocketInteractor(socketInteractor);
     }
 
     public override void UpdateState(WeldStateManager stateManager)
     {
         bool objectsAreGrabbed = stateManager.grabObjectsState.objectsAreGrabbed;
+
+        CheckIfObjectIsInserted(electrode, electrodeInserted);
+        CheckIfObjectIsRemoved(electrode, electrodeInserted);
 
         if (electrodeInserted)
         {
@@ -47,22 +47,6 @@ public class InsertElectrodeState : BaseWeldState
         else if (!objectsAreGrabbed)
         {
            stateManager.TransitionToState(stateManager.grabObjectsState);
-        }
-    }
-
-    private void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        if(args.interactableObject.transform.gameObject == electrode)
-        {
-            electrodeInserted = true;
-        }
-    }
-
-    private void OnSelectExited(SelectExitEventArgs args)
-    {
-        if (args.interactableObject.transform.gameObject == electrode)
-        {
-            electrodeInserted = false;
         }
     }
 }

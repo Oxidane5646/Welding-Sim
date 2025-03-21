@@ -19,17 +19,14 @@ public class GroundClampState : BaseWeldState
     {
         panel.SetActive(true);
 
-        socketInteractor = GroundClampSocket.GetComponent<XRSocketInteractor>();
-        socketInteractor.selectEntered.AddListener(OnSelectEntered);
-        socketInteractor.selectExited.AddListener(OnSelectExited);
+        SetupSocketInteractor(GroundClampSocket, socketInteractor);
     }
 
     public override void ExitState(WeldStateManager stateManager)
     {
         panel.SetActive(false);
 
-        socketInteractor.selectEntered.RemoveListener(OnSelectEntered);
-        socketInteractor.selectExited.RemoveListener(OnSelectExited);
+        RemoveSocketInteractor(socketInteractor);       
 
     }
 
@@ -40,23 +37,4 @@ public class GroundClampState : BaseWeldState
             stateManager.TransitionToState(this);
         }
     }
-
-    //private void OnSelectEntered(SelectEnterEventArgs args)
-    //{
-    //    if (args.interactorObject.transform.gameObject == GroundClamp)
-    //    {
-    //        clampInserted = true;
-    //    }
-        
-    //}
-
-    private void OnSelectExited(SelectExitEventArgs args)
-    {
-        if (args.interactorObject.transform.gameObject == GroundClamp)
-        {
-            clampInserted = false;
-        }
-    }
-
-   
 }
