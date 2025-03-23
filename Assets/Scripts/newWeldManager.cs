@@ -28,7 +28,7 @@ public class newWeldManager : MonoBehaviour
 
     private void Awake()
     {
-        uiManager.onWeldObjectSelected += debugTest;
+      
     }
 
     private void Start()
@@ -44,35 +44,6 @@ public class newWeldManager : MonoBehaviour
     {
       // SpawnWeldParticle();
     }
-
-    private void SpawnWeldParticle()
-    {
-        if (weldParticles == null)
-        {
-            Debug.Log("Weld Particles not found");
-            return;
-        }
-
-        weldParticles.Play(); 
-    }
-
-    private void GetWeldData(weldObjectType weldObjectType , weldSetupType weldSetypType ,  WeldDatabase database)
-    {
-        // Getting weldObject Data
-        GameObject weldObjectPrefab = database.GetWeldObject(weldObjectType);
-        GameObject currentWeldObject = Instantiate(weldObjectPrefab , weldObjectSpawn.position , Quaternion.identity);
-        currentJoinPlates = currentWeldObject.GetComponent<JoinPlates>();
-
-
-        // Getting weldSetup Data
-        GameObject weldSetupPrefab = database.GetWeldSetup(weldSetypType);
-        GameObject currentWeldSetup = Instantiate(weldSetupPrefab, weldSetupSpawn.position , Quaternion.identity);
-        currentWeldSpawner = currentWeldSetup.GetComponent<WeldSpawner>();
-        rayReference = currentWeldSetup.GetComponentInChildren<RayReference>();
-        weldParticles = currentWeldSetup.GetComponentInChildren<ParticleSystem>();
-
-    }
-
 
     private void WeldTesting()
     {
@@ -97,10 +68,44 @@ public class newWeldManager : MonoBehaviour
         }
     }
 
-    private void debugTest(weldObjectType weldObjectType)
+    private void SpawnWeldParticle()
     {
-        Debug.Log("Object event fired correctly");
-       
+        if (weldParticles == null)
+        {
+            Debug.Log("Weld Particles not found");
+            return;
+        }
+
+        weldParticles.Play(); 
+    }
+
+    private void GetWeldData(weldObjectType weldObjectType , weldSetupType weldSetypType , WeldDatabase database)
+    {
+        // Getting weldObject Data
+        GameObject currentWeldObject = BuildObject(weldObjectType , database);
+        currentJoinPlates = currentWeldObject.GetComponent<JoinPlates>();
+
+
+        // Getting weldSetup Data
+        GameObject currentWeldSetup = BuildSetup(weldSetypType , database);
+        currentWeldSpawner = currentWeldSetup.GetComponent<WeldSpawner>();
+        rayReference = currentWeldSetup.GetComponentInChildren<RayReference>();
+        weldParticles = currentWeldSetup.GetComponentInChildren<ParticleSystem>();
+
+    }
+
+    private GameObject BuildObject(weldObjectType weldObjectType, WeldDatabase database)
+    {
+        GameObject weldObjectPrefab = database.GetWeldObject(weldObjectType);
+        GameObject currentWeldObject = Instantiate(weldObjectPrefab, weldObjectSpawn.position, Quaternion.identity);
+        return currentWeldObject;
+    }
+
+    private GameObject BuildSetup(weldSetupType weldSetupType, WeldDatabase database)
+    {
+        GameObject weldSetupPrefab = database.GetWeldSetup(weldSetupType);
+        GameObject currentWeldSetup = Instantiate(weldSetupPrefab, weldSetupSpawn.position, Quaternion.identity);
+        return currentWeldSetup;
     }
 
     private void OnDestroy()
