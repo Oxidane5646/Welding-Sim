@@ -13,6 +13,7 @@ public class SnapScript : MonoBehaviour
     {
         if (other == SnapCollider)
         {
+            transform.gameObject.GetComponent<Collider>().enabled = false;
             m_InSnapCollider = true;
         }
     }
@@ -22,6 +23,7 @@ public class SnapScript : MonoBehaviour
         if (other == SnapCollider)
         {
             m_InSnapCollider = false;
+            transform.gameObject.GetComponent<Collider>().enabled = true;
         }
     }
 
@@ -31,9 +33,7 @@ public class SnapScript : MonoBehaviour
         {
             transform.position = SnapTransform.position;
             transform.rotation = SnapTransform.rotation;
-
         }
-
     }
 
     

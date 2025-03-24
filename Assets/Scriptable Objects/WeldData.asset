@@ -29,3 +29,12 @@ MonoBehaviour:
   - weldSetupType: 2
     prefab: {fileID: 7498781816408053189, guid: f1096790f4ae69643a96aea9c98ab735,
       type: 3}
+  - weldSetupType: 3
+    prefab: {fileID: 7498781816408053189, guid: f1096790f4ae69643a96aea9c98ab735,
+      type: 3}
+  - weldSetupType: 4
+    prefab: {fileID: 7498781816408053189, guid: f1096790f4ae69643a96aea9c98ab735,
+      type: 3}
+  - weldSetupType: 1
+    prefab: {fileID: 7498781816408053189, guid: f1096790f4ae69643a96aea9c98ab735,
+      type: 3}

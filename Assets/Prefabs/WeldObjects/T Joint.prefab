@@ -130,10 +130,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &7284947365782283983
 MonoBehaviour:
@@ -395,6 +395,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: T Joint
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541907395536725065, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
+        type: 3}
+      propertyPath: m_ImplicitTensor
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8121835761355608168, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
         type: 3}
