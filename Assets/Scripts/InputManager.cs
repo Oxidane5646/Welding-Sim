@@ -26,18 +26,6 @@ public class InputManager : MonoBehaviour
         WeldCheck();
     }
 
-    public (Vector3 , RaycastHit) GetPositionRaycastVR(Transform rayReference , float maxHitDistance)
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(rayReference.position, rayReference.forward, out hit))
-        {
-            Debug.DrawRay(rayReference.position , rayReference.forward  , Color.green);
-            return (hit.point , hit);
-        }
-        
-        return (Vector3.zero, default);
-    }
-
     public void WeldCheck()
     {
         if (weld == null) return;
