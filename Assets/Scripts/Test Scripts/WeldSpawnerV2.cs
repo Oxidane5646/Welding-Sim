@@ -1,234 +1,245 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeldSpawnerV2 : MonoBehaviour
+public class WeldBeadSpawner : MonoBehaviour
 {
-    [Header("Weld Settings")]
+    [Header("Weld Bead Settings")]
     [SerializeField] private GameObject weldBeadPrefab;
     [SerializeField] private Transform rayReference;
     [SerializeField] private float maxHitDistance = 10f;
     [SerializeField] private float weldResolution = 0.1f;
-
-    [Header("Visual Effects")]
-    [SerializeField] private GameObject sparksPrefab;
-    [SerializeField] private GameObject weldFlashPrefab;
-    [SerializeField] private AudioSource weldAudioSource;
-    [SerializeField] private AudioClip weldSound;
-    [SerializeField] private Light weldLight;
-
-    [Header("Weld Bead Chain")]
     [SerializeField] private Material weldMaterial;
     [SerializeField] private float beadWidth = 0.02f;
-    [SerializeField] private float beadHeight = 0.1f;
+    [SerializeField] private float beadHeight = 0.01f;
 
-    //private variables
-    private GameObject currentBead = null;
+    // Events for other systems
+    public static event Action<Vector3, Vector3> OnWeldPointCreated; // position, normal
+    public static event Action<Vector3> OnWeldStarted; // start position
+    public static event Action OnWeldStopped;
+    public static event Action OnWeldCleared;
+    public static event Action<bool> OnWeldValidityChanged; // can weld or not
+
+    // Private variables
     private List<Vector3> weldPoints = new List<Vector3>();
     private LineRenderer weldLineRenderer;
-    private RaycastHit weldHit;
-    private Coroutine sparkEffectCoroutine;
+    private RaycastHit currentHit;
+    private bool isWelding = false;
+    private Vector3 lastWeldPosition;
+
+    #region Unity Lifecycle
 
     private void Start()
     {
         SetupWeldLineRenderer();
-        SetupWeldLight();
     }
 
-    private void SetupWeldLight()
+    private void OnEnable()
     {
-        if (weldLight == null)
+        InputManagerV2.OnWeldStarted += HandleWeldStarted;
+        InputManagerV2.OnWeldStopped += HandleWeldStopped;
+    }
+
+    private void OnDisable()
+    {
+        InputManagerV2.OnWeldStarted -= HandleWeldStarted;
+        InputManagerV2.OnWeldStopped -= HandleWeldStopped;
+    }
+
+    private void Update()
+    {
+        if (isWelding)
         {
-            GameObject lightObj = new GameObject("WeldLight");
-            lightObj.transform.SetParent(rayReference);
-            weldLight = lightObj.AddComponent<Light>();
-            weldLight.type = LightType.Point;
-            weldLight.color = Color.cyan;
-            weldLight.intensity = 2f;
-            weldLight.range = 3f;
-            weldLight.enabled = false;
+            ContinueWelding();
         }
     }
+
+    #endregion
+
+    #region Setup
 
     private void SetupWeldLineRenderer()
     {
         weldLineRenderer = gameObject.AddComponent<LineRenderer>();
-        weldLineRenderer.material = weldMaterial;
+        if (weldMaterial != null)
+        {
+            weldLineRenderer.material = weldMaterial;
+        }
         weldLineRenderer.startWidth = beadWidth;
         weldLineRenderer.endWidth = beadWidth;
         weldLineRenderer.positionCount = 0;
         weldLineRenderer.useWorldSpace = true;
     }
 
-    public bool CanSpawnWeld()
+    #endregion
+
+    #region Event Handlers
+
+    private void HandleWeldStarted()
     {
-        RaycastHit? hitResult = GetPositionRaycastVR(rayReference , maxHitDistance);
-
-        if(!hitResult.HasValue) return false;
-
-        weldHit = hitResult.Value;
-        Vector3 spawnPoint = weldHit.point;
-        string tag = weldHit.collider.tag;
-
-        if (tag != "weldable" && tag != "weldPoint") return false;
-
-        if (currentBead == null) return true;
-
-        if (weldPoints.Count == 0)
+        if (CanStartWelding())
         {
-            return Vector3.Distance(weldPoints[weldPoints.Count - 1], spawnPoint) > weldResolution;
+            StartWelding();
         }
-
-        return true;
     }
 
-    public void StartWelding()
+    private void HandleWeldStopped()
     {
-        if (!CanSpawnWeld()) return;
+        StopWelding();
+    }
 
-        Vector3 spawnPoint = weldHit.point;
-        Vector3 surfaceNormal = weldHit.normal;
+    #endregion
 
-        weldPoints.Add(spawnPoint);
+    #region Welding Logic
+
+    private bool CanStartWelding()
+    {
+        RaycastHit? hitResult = GetWeldPosition();
+        if (!hitResult.HasValue) return false;
+
+        currentHit = hitResult.Value;
+        string surfaceTag = currentHit.collider.tag;
+
+        return surfaceTag == "weldable" || surfaceTag == "weldPoint";
+    }
+
+    private void StartWelding()
+    {
+        if (isWelding) return;
+
+        isWelding = true;
+        Vector3 startPosition = currentHit.point;
+        lastWeldPosition = startPosition;
+
+        // Add first point
+        AddWeldPoint(startPosition, currentHit.normal);
+
+        // Notify other systems
+        OnWeldStarted?.Invoke(startPosition);
+
+        Debug.Log("[WeldBeadSpawner] Welding started at position: " + startPosition);
+    }
+
+    private void ContinueWelding()
+    {
+        if (!CanStartWelding()) return;
+
+        Vector3 currentPosition = currentHit.point;
+
+        // Check if we should add a new weld point
+        if (Vector3.Distance(lastWeldPosition, currentPosition) >= weldResolution)
+        {
+            AddWeldPoint(currentPosition, currentHit.normal);
+            lastWeldPosition = currentPosition;
+        }
+    }
+
+    private void StopWelding()
+    {
+        if (!isWelding) return;
+
+        isWelding = false;
+        OnWeldStopped?.Invoke();
+
+        Debug.Log("[WeldBeadSpawner] Welding stopped. Total points: " + weldPoints.Count);
+    }
+
+    private void AddWeldPoint(Vector3 position, Vector3 normal)
+    {
+        // Add to weld points list
+        weldPoints.Add(position);
+
+        // Update line renderer
         UpdateWeldLine();
 
-        SpawnWeldBead(spawnPoint, surfaceNormal);
+        // Spawn individual bead if prefab is assigned
+        if (weldBeadPrefab != null)
+        {
+            SpawnWeldBead(position, normal);
+        }
 
-        StartWeldEffects(spawnPoint);
-
-        PlayWeldSound();
+        // Notify other systems
+        OnWeldPointCreated?.Invoke(position, normal);
     }
 
-    public void StopWelding()
+    private void SpawnWeldBead(Vector3 position, Vector3 normal)
     {
-        StopWeldEffects();
-        StopWeldSound();
-        currentBead = null;
-    }
-
-    private void SpawnWeldBead(Vector3 spawnPoint, Vector3 surfaceNormal)
-    {
-        if(weldBeadPrefab != null)
-        {
-            Quaternion rotation = Quaternion.LookRotation(surfaceNormal);
-            currentBead = Instantiate(weldBeadPrefab, spawnPoint, rotation);
-
-            currentBead.transform.localScale = new Vector3(beadWidth, beadHeight , beadWidth);
-        }
-    }
-
-    private void StopWeldEffects()
-    {
-        if (weldLight != null)
-        {
-            weldLight.enabled = false;
-        }
-
-        if(sparkEffectCoroutine != null)
-        {
-            StopCoroutine(sparkEffectCoroutine);
-            sparkEffectCoroutine = null;
-        }
-    }
-
-    private void StartWeldEffects(Vector3 position)
-    {
-        if (sparksPrefab != null)
-        {
-            GameObject sparks = Instantiate(sparksPrefab, position, Quaternion.identity);
-            Destroy(sparks , 2f);
-        }
-
-        if (weldFlashPrefab != null)
-        {
-            GameObject flash = Instantiate(weldFlashPrefab, position, Quaternion.identity);
-            Destroy(flash, 0.5f);
-        }
-
-        if (weldLight !=  null)
-        {
-            weldLight.enabled = true;
-            weldLight.transform.position = position;
-        }
-
-        if (sparkEffectCoroutine != null)
-        {
-            StopCoroutine(sparkEffectCoroutine);
-        }
-        sparkEffectCoroutine = StartCoroutine(ContinuousSparkEffect());
-    }
-
-    private IEnumerator ContinuousSparkEffect()
-    {
-        while (true)
-        {
-            if(sparksPrefab != null && weldPoints.Count > 0)
-            {
-                Vector3 lastPoint = weldPoints[weldPoints.Count - 1];
-                GameObject sparks = Instantiate(sparksPrefab, lastPoint, Quaternion.identity);
-                Destroy(sparks, 1f);
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
-    private void PlayWeldSound()
-    {
-        if (weldAudioSource != null && weldSound != null)
-        {
-            weldAudioSource.clip = weldSound;
-            weldAudioSource.loop = true;
-            if (!weldAudioSource.isPlaying)
-            {
-                weldAudioSource.Play();
-            }
-        }
-    }
-
-    private void StopWeldSound()
-    {
-        if (weldAudioSource != null)
-        {
-            weldAudioSource.Stop();
-        }
+        Quaternion rotation = Quaternion.LookRotation(normal);
+        GameObject bead = Instantiate(weldBeadPrefab, position, rotation);
+        bead.transform.localScale = new Vector3(beadWidth, beadHeight, beadWidth);
     }
 
     private void UpdateWeldLine()
     {
         weldLineRenderer.positionCount = weldPoints.Count;
-        weldLineRenderer.SetPositions(weldPoints.ToArray());
+        if (weldPoints.Count > 0)
+        {
+            weldLineRenderer.SetPositions(weldPoints.ToArray());
+        }
     }
 
-    private RaycastHit? GetPositionRaycastVR(Transform rayReference, float maxHitDistance)
+    #endregion
+
+    #region Utility Methods
+
+    private RaycastHit? GetWeldPosition()
     {
+        if (rayReference == null) return null;
+
         RaycastHit hit;
-        if (Physics.Raycast(rayReference.position , rayReference.forward, out hit , maxHitDistance))
+        if (Physics.Raycast(rayReference.position, rayReference.forward, out hit, maxHitDistance))
         {
+            Debug.DrawRay(rayReference.position, rayReference.forward * hit.distance, Color.green);
             return hit;
         }
+
+        Debug.DrawRay(rayReference.position, rayReference.forward * maxHitDistance, Color.red);
         return null;
     }
+
+    #endregion
+
+    #region Public API
 
     public void ClearWeld()
     {
         weldPoints.Clear();
-        weldLineRenderer.positionCount=0;
-        StopWelding();
+        weldLineRenderer.positionCount = 0;
+
+        // Destroy existing weld beads
+        GameObject[] weldBeads = GameObject.FindGameObjectsWithTag("WeldBead");
+        foreach (GameObject bead in weldBeads)
+        {
+            Destroy(bead);
+        }
+
+        OnWeldCleared?.Invoke();
+        Debug.Log("[WeldBeadSpawner] Weld cleared");
     }
+
+    public bool IsWelding => isWelding;
+    public int WeldPointCount => weldPoints.Count;
+    public Vector3 LastWeldPosition => lastWeldPosition;
+
+    #endregion
+
+    #region Debug
 
     private void OnDrawGizmos()
     {
-        if(rayReference != null)
+        if (rayReference != null)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.yellow;
             Gizmos.DrawRay(rayReference.position, rayReference.forward * maxHitDistance);
         }
 
+        // Draw weld points
         Gizmos.color = Color.red;
-        foreach(Vector3 point in weldPoints)
+        foreach (Vector3 point in weldPoints)
         {
             Gizmos.DrawSphere(point, 0.01f);
         }
     }
+
+    #endregion
 }

@@ -1,82 +1,82 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using UnityEngine.UIElements;
 
-public class WeldManager : MonoBehaviour
-{
-    [SerializeField] private InputManager inputManager;
-    [SerializeField] private WeldSpawner weldSpawner;
-    [SerializeField] private JoinPlates joinPlates;
-    [SerializeField] private FillerRodCollision fillerRodCollision;
-    [SerializeField] private WeldDatabase weldDatabase;
+//public class WeldManager : MonoBehaviour
+//{
+//    [SerializeField] private InputManagerV2 inputManager;
+//    [SerializeField] private WeldSpawner weldSpawner;
+//    [SerializeField] private JoinPlates joinPlates;
+//    [SerializeField] private FillerRodCollision fillerRodCollision;
+//    [SerializeField] private WeldDatabase weldDatabase;
 
-    [SerializeField] private Camera cam;
-    [SerializeField] private float resolution;
-    [SerializeField] private float maxWeldDistance;
-    [SerializeField] private Transform rayReference;
+//    [SerializeField] private Camera cam;
+//    [SerializeField] private float resolution;
+//    [SerializeField] private float maxWeldDistance;
+//    [SerializeField] private Transform rayReference;
 
-    private RaycastHit hit;
-    private Vector3 spawnPoint;
+//    private RaycastHit hit;
+//    private Vector3 spawnPoint;
 
-    private void Start()
-    {
+//    private void Start()
+//    {
         
 
-        // Ensure InputManager is assigned
-        if (inputManager == null)
-        {
-            Debug.LogError("InputManager is not assigned in WeldManager!");
-            return;
-        }
-    }
+//        // Ensure InputManager is assigned
+//        if (inputManager == null)
+//        {
+//            Debug.LogError("InputManager is not assigned in WeldManager!");
+//            return;
+//        }
+//    }
 
-    private void Update()
-    {
+//    private void Update()
+//    {
 
-    }
+//    }
 
-    private void NormalVRTesting()
-    {
-        (spawnPoint, hit) = inputManager.GetPositionRaycastVR(rayReference, maxWeldDistance);
-        checkingNull(spawnPoint, hit, resolution);
+//    private void NormalVRTesting()
+//    {
+//        (spawnPoint, hit) = inputManager.GetPositionRaycastVR(rayReference, maxWeldDistance);
+//        checkingNull(spawnPoint, hit, resolution);
 
-        if (hit.collider == null || hit.transform == null) return;
+//        if (hit.collider == null || hit.transform == null) return;
 
-        bool canSpawnWeld = weldSpawner.CanSpawnWeld(resolution, spawnPoint, hit.transform.tag);
+//        bool canSpawnWeld = weldSpawner.CanSpawnWeld(resolution, spawnPoint, hit.transform.tag);
 
-        //if (inputManager.isWeldingVR() && canSpawnWeld)
-        {
-            weldSpawner.SpawnWeld(spawnPoint);
-        }
+//        //if (inputManager.isWeldingVR() && canSpawnWeld)
+//        {
+//            weldSpawner.SpawnWeld(spawnPoint);
+//        }
 
-        joinPlates.UpdateWeldPoints(hit);
+//        joinPlates.UpdateWeldPoints(hit);
 
-        if (spawnPoint == Vector3.zero) return;
+//        if (spawnPoint == Vector3.zero) return;
 
-        if (joinPlates.CanJoinPlates())
-        {
-            joinPlates.ConnectPlates();
-        }
-    }
+//        if (joinPlates.CanJoinPlates())
+//        {
+//            joinPlates.ConnectPlates();
+//        }
+//    }
 
-    private void checkingNull(Vector3 spawnPoint, RaycastHit hit1, float resolution)
-    {
-        if (spawnPoint == Vector3.zero)
-        {
-            Debug.LogWarning("SpawnPoint is zero (not valid).");
-        }
-        if (hit1.collider == null)
-        {
-            Debug.LogWarning("Raycast hit nothing.");
-        }
-        if (resolution == 0)
-        {
-            Debug.LogWarning("Resolution is zero, check your settings.");
-        }
-    }
+//    private void checkingNull(Vector3 spawnPoint, RaycastHit hit1, float resolution)
+//    {
+//        if (spawnPoint == Vector3.zero)
+//        {
+//            Debug.LogWarning("SpawnPoint is zero (not valid).");
+//        }
+//        if (hit1.collider == null)
+//        {
+//            Debug.LogWarning("Raycast hit nothing.");
+//        }
+//        if (resolution == 0)
+//        {
+//            Debug.LogWarning("Resolution is zero, check your settings.");
+//        }
+//    }
 
-}
+//}
 
 

@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 5044576848317356684}
   - component: {fileID: 8810262822754576062}
   - component: {fileID: 7373099894603354581}
+  - component: {fileID: 6369776183934721313}
   m_Layer: 0
   m_Name: Basic Weld Setup
   m_TagString: Untagged
@@ -400,6 +401,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weldBeadPrefab: {fileID: 5432119625213816244, guid: 551ba38b73662e24982bc61f9fde0963,
     type: 3}
+  rayReference: {fileID: 8780644086997677483}
+  weldResolution: 0.1
+  maxHitDistance: 10
 --- !u!54 &8810262822754576062
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -580,6 +584,23 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!114 &6369776183934721313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498781816408053189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3de6822fe1e884f9e0f8f526e08bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weldBeadPrefab: {fileID: 5432119625213816244, guid: 551ba38b73662e24982bc61f9fde0963,
+    type: 3}
+  rayReference: {fileID: 8780644086997677483}
+  weldResolution: 0.1
+  maxHitDistance: 10
 --- !u!1 &7732081722823292066
 GameObject:
   m_ObjectHideFlags: 0

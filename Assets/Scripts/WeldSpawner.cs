@@ -8,44 +8,100 @@ public class WeldSpawner : MonoBehaviour
 {
     [SerializeField] GameObject weldBeadPrefab;
     [SerializeField] Transform rayReference;
+    [SerializeField] float weldResolution = 0.1f;
     [SerializeField] float maxHitDistance = 10f;
+
     GameObject currentBead = null;
-
     RaycastHit weldHit;
+    Vector3 spawnPoint;
 
-    public bool CanSpawnWeld(float resolution)
+    public bool CanSpawnWeld()
     {
-        weldHit = GetPositionRaycastVR(rayReference , maxHitDistance).Value;
+        // Early return if required components are missing
+        if (rayReference == null)
+        {
+            Debug.LogWarning("Ray reference is null!");
+            return false;
+        }
 
-        Vector3 spawnPoint = weldHit.point;
+        var hitResult = GetPositionRaycastVR(rayReference, maxHitDistance);
+        if (!hitResult.HasValue)
+        {
+            return false;
+        }
+
+        weldHit = hitResult.Value;
+        spawnPoint = weldHit.point;
+
+        // Check if we hit a valid collider with a tag
+        if (weldHit.collider == null)
+        {
+            return false;
+        }
+
         string tag = weldHit.collider.tag;
 
-        if (spawnPoint == Vector3.zero) return false; 
-
+        // If no current bead exists, we can spawn
         if (currentBead == null)
         {
-            return true;
+            return tag == "weldable" || tag == "weldPoint";
         }
-        if (tag == "weldable" || tag == "weldPoint") 
+
+        // Check distance from current bead if it exists
+        if (tag == "weldable" || tag == "weldPoint")
         {
-            return Vector3.Distance(currentBead.transform.position, spawnPoint) > resolution;
+            return Vector3.Distance(currentBead.transform.position, spawnPoint) > weldResolution;
         }
-        return false; 
+
+        return false;
     }
 
-    public void SpawnWeld(Vector3 spawnPoint)
+    public void SpawnWeld()
     {
-        currentBead = Instantiate(weldBeadPrefab, spawnPoint, Quaternion.identity);
+        if (weldBeadPrefab == null)
+        {
+            Debug.LogError("Weld bead prefab is not assigned!");
+            return;
+        }
+
+        if (CanSpawnWeld())
+        {
+            currentBead = Instantiate(weldBeadPrefab, spawnPoint, Quaternion.identity);
+        }
     }
 
     public RaycastHit? GetPositionRaycastVR(Transform rayReference, float maxHitDistance)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(rayReference.position, rayReference.forward, out hit))
+        if (rayReference == null)
         {
-            Debug.DrawRay(rayReference.position, rayReference.forward, Color.green);
+            Debug.LogWarning("Ray reference is null in GetPositionRaycastVR!");
+            return null;
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(rayReference.position, rayReference.forward, out hit, maxHitDistance))
+        {
+            Debug.DrawRay(rayReference.position, rayReference.forward * hit.distance, Color.green);
             return hit;
         }
-        return hit;
+
+        // Draw red ray when no hit
+        Debug.DrawRay(rayReference.position, rayReference.forward * maxHitDistance, Color.red);
+        return null;
+    }
+
+    // Optional: Add validation in Start/Awake
+    void Start()
+    {
+        ValidateComponents();
+    }
+
+    void ValidateComponents()
+    {
+        if (weldBeadPrefab == null)
+            Debug.LogError($"[{gameObject.name}] Weld bead prefab is not assigned!");
+
+        if (rayReference == null)
+            Debug.LogError($"[{gameObject.name}] Ray reference is not assigned!");
     }
 }

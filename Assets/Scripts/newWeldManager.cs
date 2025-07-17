@@ -4,6 +4,8 @@ public class newWeldManager : MonoBehaviour
 {
     [SerializeField] WeldDatabase weldDatabase;
     [SerializeField] UIManager uiManager;
+
+    [Header("Spawn Points")]
     [SerializeField] Transform weldObjectSpawn;
     [SerializeField] Transform weldSetupSpawn;
 
@@ -12,16 +14,7 @@ public class newWeldManager : MonoBehaviour
     // Script References
     private WeldSpawner currentWeldSpawner;
     private JoinPlates currentJoinPlates;
-    private RayReference rayReference;
     private ParticleSystem weldParticles;
-
-    // Temporary data references
-    [SerializeField] private float resolution;
-    [SerializeField] private float maxWeldDistance;
-
-    // Local Data Cache
-    private Vector3 spawnPoint = Vector3.zero;
-    private RaycastHit hit;
 
     private void Awake()
     {
@@ -30,7 +23,7 @@ public class newWeldManager : MonoBehaviour
         // Subscribe to UIManager event
         if (uiManager != null)
         {
-            uiManager.onWeldSelectionComplete += GetWeldData;
+            uiManager.onWeldSelectionComplete += InitializeWeldData;
         }
     }
 
@@ -39,7 +32,7 @@ public class newWeldManager : MonoBehaviour
         inputManager.OnWeldPressed += Welding;
     }
 
-    private void GetWeldData(weldObjectType weldObjectType, weldSetupType weldSetupType)
+    private void InitializeWeldData(weldObjectType weldObjectType, weldSetupType weldSetupType)
     {
         if (weldDatabase == null) return;
 
@@ -55,7 +48,6 @@ public class newWeldManager : MonoBehaviour
         if (currentWeldSetup != null)
         {
             currentWeldSpawner = currentWeldSetup.GetComponent<WeldSpawner>();
-            rayReference = currentWeldSetup.GetComponentInChildren<RayReference>();
             weldParticles = currentWeldSetup.GetComponentInChildren<ParticleSystem>();
         }
     }
@@ -80,27 +72,18 @@ public class newWeldManager : MonoBehaviour
 
     private void Welding()
     {
-        if (rayReference == null) return;
+        currentWeldSpawner.SpawnWeld();
+        SpawnWeldParticle();
+       
+        //if (currentJoinPlates != null)
+        //{
+        //    currentJoinPlates.UpdateWeldPoints(hit);
 
-        (spawnPoint, hit) = inputManager.GetPositionRaycastVR(rayReference.transform, 5f);
-
-        if (hit.collider == null || spawnPoint == Vector3.zero) return;
-
-        if (currentWeldSpawner != null && currentWeldSpawner.CanSpawnWeld(resolution, spawnPoint, hit.transform.tag))
-        {
-            currentWeldSpawner.SpawnWeld(spawnPoint);
-            SpawnWeldParticle();
-        }
-
-        if (currentJoinPlates != null)
-        {
-            currentJoinPlates.UpdateWeldPoints(hit);
-
-            if (currentJoinPlates.CanJoinPlates())
-            {
-                currentJoinPlates.ConnectPlates();
-            }
-        }
+        //    if (currentJoinPlates.CanJoinPlates())
+        //    {
+        //        currentJoinPlates.ConnectPlates();
+        //    }
+        //}
     }
 
     private void SpawnWeldParticle()
@@ -121,7 +104,7 @@ public class newWeldManager : MonoBehaviour
 
         if (uiManager != null)
         {
-            uiManager.onWeldSelectionComplete -= GetWeldData;
+            uiManager.onWeldSelectionComplete -= InitializeWeldData;
         }
     }
 }
