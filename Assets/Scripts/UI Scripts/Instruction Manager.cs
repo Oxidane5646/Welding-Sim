@@ -1,17 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
-public class InstructionManager : MonoBehaviour
+namespace UI_Scripts
 {
-    [Serializable]
-    public class InstructionPanel
+    public class InstructionManager : MonoBehaviour
     {
-        public GameObject panel;
-        bool isCompleted = false;
-    }
+        [Serializable]
+        public class InstructionPanel
+        {
+            public GameObject panel;
+            bool isCompleted = false;
+        }
 
-    [SerializeField] InstructionPanel[] instructionPanels;
+        [SerializeField] InstructionPanel[] instructionPanels;
+    }
 }

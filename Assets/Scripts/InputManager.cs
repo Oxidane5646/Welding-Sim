@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     private InputAction weld;
 
     public event Action OnWeldPressed;
+    public event Action OnEquipKeyPressed;
 
     private void Awake()
     {

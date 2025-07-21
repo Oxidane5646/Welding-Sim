@@ -1,9 +1,19 @@
+using UI_Scripts;
 using UnityEngine;
 
 public class newWeldManager : MonoBehaviour
 {
+    /*
+     * Note:-  
+     *   change the dependency of the jointplates class to selfmanage itseld using events 
+     *   create a more simple initialization method for the weld object and setup
+     *   combine the buildweldobject and the buildweldsetup methods into a single method
+     *   create a seperate class for the particle effects and audio effects 
+     */
+
+
     [SerializeField] WeldDatabase weldDatabase;
-    [SerializeField] UIManager uiManager;
+    [SerializeField] UIManager uiManager; // Changed to a new script so this wont work
 
     [Header("Spawn Points")]
     [SerializeField] Transform weldObjectSpawn;
@@ -21,15 +31,18 @@ public class newWeldManager : MonoBehaviour
         inputManager = GetComponent<InputManager>();
 
         // Subscribe to UIManager event
+        //Make it into a new function and get the information using other methods cuz its aint accessible through ui manager for now 
         if (uiManager != null)
         {
-            uiManager.onWeldSelectionComplete += InitializeWeldData;
+            //uiManager.OnOnWeldSelectionComplete += InitializeWeldData;
         }
     }
 
     private void Start()
     {
         inputManager.OnWeldPressed += Welding;
+        //Change the function of line 45
+        //currentWeldSpawner.OnWeldRaycastHit += JoinPlatesFunction;
     }
 
     private void InitializeWeldData(weldObjectType weldObjectType, weldSetupType weldSetupType)
@@ -74,16 +87,19 @@ public class newWeldManager : MonoBehaviour
     {
         currentWeldSpawner.SpawnWeld();
         SpawnWeldParticle();
-       
-        //if (currentJoinPlates != null)
-        //{
-        //    currentJoinPlates.UpdateWeldPoints(hit);
+    }
 
-        //    if (currentJoinPlates.CanJoinPlates())
-        //    {
-        //        currentJoinPlates.ConnectPlates();
-        //    }
-        //}
+    private void JoinPlatesFunction(RaycastHit hit)
+    {
+        if (currentJoinPlates != null)
+        {
+            currentJoinPlates.UpdateWeldPoints(hit);
+
+            if (currentJoinPlates.CanJoinPlates())
+            {
+                currentJoinPlates.ConnectPlates();
+            }
+        }
     }
 
     private void SpawnWeldParticle()
@@ -101,11 +117,17 @@ public class newWeldManager : MonoBehaviour
     private void OnDestroy()
     {
         inputManager.OnWeldPressed -= Welding;
-
+        //The reference of this event is changed so make change this function as a whole
         if (uiManager != null)
         {
-            uiManager.onWeldSelectionComplete -= InitializeWeldData;
+            //uiManager.OnOnWeldSelectionComplete -= InitializeWeldData;
         }
+    }
+
+    private void OnDisable()
+    {
+        inputManager.OnWeldPressed -= Welding;
+        //currentWeldSpawner.OnWeldRaycastHit -= JoinPlatesFunction;
     }
 }
 

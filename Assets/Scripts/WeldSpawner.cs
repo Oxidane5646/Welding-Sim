@@ -1,26 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using TMPro;
+using System;
 using UnityEngine;
 
 public class WeldSpawner : MonoBehaviour
 {
+    /*
+     *Note:
+     * create a more detailed way to simulate the welding process
+     * make the onweldraycasthit event more effecient and flexible
+     * make the canspawnweld method more flexible and efficient using variables for the tag references
+     * 
+     */
+
     [SerializeField] GameObject weldBeadPrefab;
     [SerializeField] Transform rayReference;
     [SerializeField] float weldResolution = 0.1f;
     [SerializeField] float maxHitDistance = 10f;
 
-    GameObject currentBead = null;
+    GameObject currentBead;
     RaycastHit weldHit;
     Vector3 spawnPoint;
 
+    public event Action<RaycastHit> OnWeldRaycastHit;
+    // ReSharper disable Unity.PerformanceAnalysis
     public bool CanSpawnWeld()
     {
         // Early return if required components are missing
-        if (rayReference == null)
+        if (!rayReference)
         {
-            Debug.LogWarning("Ray reference is null!");
             return false;
         }
 
@@ -34,21 +40,21 @@ public class WeldSpawner : MonoBehaviour
         spawnPoint = weldHit.point;
 
         // Check if we hit a valid collider with a tag
-        if (weldHit.collider == null)
+        if (!weldHit.collider)
         {
             return false;
         }
 
-        string tag = weldHit.collider.tag;
+        string colliderTag = weldHit.collider.tag;
 
         // If no current bead exists, we can spawn
-        if (currentBead == null)
+        if (!currentBead)
         {
-            return tag == "weldable" || tag == "weldPoint";
+            return colliderTag == "weldable" || colliderTag == "weldPoint";
         }
 
         // Check distance from current bead if it exists
-        if (tag == "weldable" || tag == "weldPoint")
+        if (colliderTag == "weldable" || colliderTag == "weldPoint")
         {
             return Vector3.Distance(currentBead.transform.position, spawnPoint) > weldResolution;
         }
@@ -58,9 +64,8 @@ public class WeldSpawner : MonoBehaviour
 
     public void SpawnWeld()
     {
-        if (weldBeadPrefab == null)
+        if (!weldBeadPrefab)
         {
-            Debug.LogError("Weld bead prefab is not assigned!");
             return;
         }
 
@@ -72,15 +77,15 @@ public class WeldSpawner : MonoBehaviour
 
     public RaycastHit? GetPositionRaycastVR(Transform rayReference, float maxHitDistance)
     {
-        if (rayReference == null)
+        if (!rayReference)
         {
-            Debug.LogWarning("Ray reference is null in GetPositionRaycastVR!");
             return null;
         }
 
         RaycastHit hit;
         if (Physics.Raycast(rayReference.position, rayReference.forward, out hit, maxHitDistance))
         {
+            OnWeldRaycastHit?.Invoke(hit);
             Debug.DrawRay(rayReference.position, rayReference.forward * hit.distance, Color.green);
             return hit;
         }

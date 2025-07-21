@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SlimUI.ModernMenu{
+namespace Asset_Packages.SlimUI.Modern_Menu_1.Scripts.Misc{
 	public class ResetDemo : MonoBehaviour {
 
 		void Update () {

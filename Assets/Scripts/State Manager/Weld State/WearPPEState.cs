@@ -1,42 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class WearPPEState : BaseWeldState
+namespace State_Manager.Weld_State
 {
-    private GameObject HelmetSocket;
-    private GameObject GlovesSocket;
-
-    private XRSocketInteractor HelmetSocketInteractor;
-    private XRSocketInteractor GlovesSocketInteractor;
-
-    public bool helmetWeared;
-    public bool glovesWeared;
-
-    public WearPPEState(GameObject panel) : base(panel)
+    public class WearPPEState : BaseWeldState
     {
+        private GameObject HelmetSocket;
+        private GameObject GlovesSocket;
 
-    }
+        private XRSocketInteractor HelmetSocketInteractor;
+        private XRSocketInteractor GlovesSocketInteractor;
 
-    public override void EnterState(WeldStateManager stateManager)
-    {
-        panel.SetActive(true);
+        public bool helmetWeared;
+        public bool glovesWeared;
 
-        HelmetSocketInteractor = SetupSocketInteractor(HelmetSocket);
-        GlovesSocketInteractor = SetupSocketInteractor(panel);
-    }
+        public WearPPEState(GameObject panel) : base(panel)
+        {
 
-    public override void ExitState(WeldStateManager stateManager)
-    {
-        panel.SetActive(false);
+        }
 
-        RemoveSocketInteractor(HelmetSocketInteractor);
-        RemoveSocketInteractor(GlovesSocketInteractor);
-    }
+        public override void EnterState(WeldStateManager stateManager)
+        {
+            panel.SetActive(true);
 
-    public override void UpdateState(WeldStateManager stateManager)
-    {
+            HelmetSocketInteractor = SetupSocketInteractor(HelmetSocket);
+            GlovesSocketInteractor = SetupSocketInteractor(panel);
+        }
 
+        public override void ExitState(WeldStateManager stateManager)
+        {
+            panel.SetActive(false);
+
+            RemoveSocketInteractor(HelmetSocketInteractor);
+            RemoveSocketInteractor(GlovesSocketInteractor);
+        }
+
+        public override void UpdateState(WeldStateManager stateManager)
+        {
+
+        }
     }
 }

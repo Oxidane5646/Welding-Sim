@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
+﻿using System.Collections;
+using Asset_Packages.SlimUI.Modern_Menu_1.Scripts.ThemeEditor;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace SlimUI.ModernMenu{
+namespace Asset_Packages.SlimUI.Modern_Menu_1.Scripts.Managers{
 	public class UIMenuManager : MonoBehaviour {
 		private Animator CameraObject;
 

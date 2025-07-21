@@ -1,49 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Transformers;
 
-public class GroundClampState : BaseWeldState
+namespace State_Manager.Weld_State
 {
-    private GameObject GroundClampSocket;
-    private GameObject GroundClamp;
+    public class GroundClampState : BaseWeldState
+    {
+        private GameObject GroundClampSocket;
+        private GameObject GroundClamp;
 
-    private XRSocketInteractor socketInteractor;
+        private XRSocketInteractor socketInteractor;
 
-    private bool clampInserted;
+        private bool clampInserted;
     
-    public GroundClampState(GameObject panel) : base(panel) { }
+        public GroundClampState(GameObject panel) : base(panel) { }
 
-    public override void EnterState(WeldStateManager stateManager)
-    {
-        panel.SetActive(true);
-
-        socketInteractor = SetupSocketInteractor(GroundClampSocket);
-    }
-
-    public override void ExitState(WeldStateManager stateManager)
-    {
-        panel.SetActive(false);
-
-        RemoveSocketInteractor(socketInteractor);       
-
-    }
-
-    public override void UpdateState(WeldStateManager stateManager)
-    {
-        if (CheckIfObjectIsInserted(GroundClamp))
+        public override void EnterState(WeldStateManager stateManager)
         {
-            clampInserted = true;
-        }
-        if (CheckIfObjectIsRemoved(GroundClamp))
-        {
-            clampInserted = false;
+            panel.SetActive(true);
+
+            socketInteractor = SetupSocketInteractor(GroundClampSocket);
         }
 
-        if (clampInserted)
+        public override void ExitState(WeldStateManager stateManager)
         {
-            stateManager.TransitionToState(stateManager.wearPPEState);
+            panel.SetActive(false);
+
+            RemoveSocketInteractor(socketInteractor);       
+
+        }
+
+        public override void UpdateState(WeldStateManager stateManager)
+        {
+            if (CheckIfObjectIsInserted(GroundClamp))
+            {
+                clampInserted = true;
+            }
+            if (CheckIfObjectIsRemoved(GroundClamp))
+            {
+                clampInserted = false;
+            }
+
+            if (clampInserted)
+            {
+                stateManager.TransitionToState(stateManager.wearPPEState);
+            }
         }
     }
 }

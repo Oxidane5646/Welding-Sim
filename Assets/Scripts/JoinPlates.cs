@@ -1,11 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class JoinPlates : MonoBehaviour
 {
+    /*Note:
+     * Make this class more effecient and make dynamic adding of weldpoints 
+     * implement the fixed joint system properly
+     * This class needs the reference of the weldspawner to make it self sufficient and subcribe to the onweldraycasthit event action
+     */
 
     private bool isJoined = false;
+
+    public event Action<float> OnCompletionPercentageChanged;
+
+    private void OnEnable()
+    {
+       
+    }
+
+    private void JoinPlatesFunction()
+    {
+
+    }
 
     public class WeldPoint
     {
@@ -82,6 +100,19 @@ public class JoinPlates : MonoBehaviour
         }
 
         isJoined = true;
+    }
+
+    public float CompletionPercentage()
+    {
+        if( weldPoints.Length == 0) return 0.0f;
+        
+        int hitcount = 0;
+        foreach (WeldPoint weldPoint in weldPoints)
+        {
+            if (weldPoint.isHit) hitcount++;
+        }
+
+        return (float)hitcount / weldPoints.Length * 100f;
     }
 
 }

@@ -1,57 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class InsertElectrodeState : BaseWeldState
+namespace State_Manager.Weld_State
 {
-    private GameObject electrode;
-    private GameObject weldTorchHead;
-    private XRSocketInteractor socketInteractor;
-
-    public bool electrodeInserted = false;
-
-    public InsertElectrodeState(GameObject panel , GameObject electrode, GameObject weldTorchHead) : base(panel)
+    public class InsertElectrodeState : BaseWeldState
     {
-        this.electrode = electrode;
-        this.weldTorchHead = weldTorchHead;
-    }
+        private GameObject electrode;
+        private GameObject weldTorchHead;
+        private XRSocketInteractor socketInteractor;
 
-    public override void EnterState(WeldStateManager stateManager)
-    {
-        panel.SetActive(true);
+        public bool electrodeInserted = false;
 
-        socketInteractor = SetupSocketInteractor(weldTorchHead);
-
-    }
-
-    public override void ExitState(WeldStateManager stateManager)
-    {
-        panel.SetActive(false);
-
-        RemoveSocketInteractor(socketInteractor);
-    }
-
-    public override void UpdateState(WeldStateManager stateManager)
-    {
-        bool objectsAreGrabbed = stateManager.grabObjectsState.GetObjectsAreGrabbed();
-
-        if (CheckIfObjectIsInserted(electrode)) electrodeInserted = true;
-        if (CheckIfObjectIsRemoved(electrode)) electrodeInserted = false;
-
-        if (electrodeInserted)
+        public InsertElectrodeState(GameObject panel , GameObject electrode, GameObject weldTorchHead) : base(panel)
         {
-            stateManager.TransitionToState(stateManager.groundClampState);
+            this.electrode = electrode;
+            this.weldTorchHead = weldTorchHead;
         }
 
-        else if (!objectsAreGrabbed)
+        public override void EnterState(WeldStateManager stateManager)
         {
-           stateManager.TransitionToState(stateManager.grabObjectsState);
-        }
-    }
+            panel.SetActive(true);
 
-    public bool GetElectrodeInserted()
-    {
-        return electrodeInserted;
-    }   
+            socketInteractor = SetupSocketInteractor(weldTorchHead);
+
+        }
+
+        public override void ExitState(WeldStateManager stateManager)
+        {
+            panel.SetActive(false);
+
+            RemoveSocketInteractor(socketInteractor);
+        }
+
+        public override void UpdateState(WeldStateManager stateManager)
+        {
+            bool objectsAreGrabbed = stateManager.grabObjectsState.GetObjectsAreGrabbed();
+
+            if (CheckIfObjectIsInserted(electrode)) electrodeInserted = true;
+            if (CheckIfObjectIsRemoved(electrode)) electrodeInserted = false;
+
+            if (electrodeInserted)
+            {
+                stateManager.TransitionToState(stateManager.groundClampState);
+            }
+
+            else if (!objectsAreGrabbed)
+            {
+                stateManager.TransitionToState(stateManager.grabObjectsState);
+            }
+        }
+
+        public bool GetElectrodeInserted()
+        {
+            return electrodeInserted;
+        }   
+    }
 }

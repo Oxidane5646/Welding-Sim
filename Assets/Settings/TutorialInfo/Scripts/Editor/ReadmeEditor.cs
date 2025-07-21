@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using System.IO;
 using System.Reflection;
+using Settings.TutorialInfo.Scripts;
 
 [CustomEditor(typeof(Readme))]
 [InitializeOnLoad]

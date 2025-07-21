@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SlimUI.ModernMenu{
+namespace Asset_Packages.SlimUI.Modern_Menu_1.Scripts.ThemeEditor{
 	[CreateAssetMenu(menuName = "ThemeSettings")]
 	[System.Serializable]
 	public class ThemedUIData : ScriptableObject {
