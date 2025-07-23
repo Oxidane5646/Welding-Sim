@@ -45,7 +45,7 @@ public class newWeldManager : MonoBehaviour
         //currentWeldSpawner.OnWeldRaycastHit += JoinPlatesFunction;
     }
 
-    private void InitializeWeldData(weldObjectType weldObjectType, weldSetupType weldSetupType)
+    private void InitializeWeldData(WeldObjectType weldObjectType, WeldSetupType weldSetupType)
     {
         if (weldDatabase == null) return;
 
@@ -65,13 +65,13 @@ public class newWeldManager : MonoBehaviour
         }
     }
 
-    private GameObject BuildObject(weldObjectType weldObjectType)
+    private GameObject BuildObject(WeldObjectType weldObjectType)
     {
         GameObject weldObjectPrefab = weldDatabase?.GetWeldObject(weldObjectType);
         return weldObjectPrefab != null ? Instantiate(weldObjectPrefab, weldObjectSpawn.position, Quaternion.identity) : null;
     }
 
-    private GameObject BuildSetup(weldSetupType weldSetupType)
+    private GameObject BuildSetup(WeldSetupType weldSetupType)
     {
         GameObject weldSetupPrefab = weldDatabase?.GetWeldSetup(weldSetupType);
         return weldSetupPrefab != null ? Instantiate(weldSetupPrefab, weldSetupSpawn.position, Quaternion.identity) : null;
@@ -104,7 +104,7 @@ public class newWeldManager : MonoBehaviour
 
     private void SpawnWeldParticle()
     {
-        if (weldParticles != null)
+        if (weldParticles)
         {
             weldParticles.Play();
         }

@@ -23,19 +23,19 @@ namespace UI_Scripts
         [SerializeField] private GameObject weldObjectPanel;
         [SerializeField] private GameObject weldSetupPanel;
 
-        private weldObjectType selectedWeldObjectType;
+        private WeldObjectType selectedWeldObjectType;
 
         // Event now sends both weldObjectType and weldSetupType
-        public event Action<weldObjectType, weldSetupType> OnOnWeldSelectionComplete;
+        public event Action<WeldObjectType, WeldSetupType> OnOnWeldSelectionComplete;
 
         private void Start()
         {
             // Map weld object buttons to types
-            Dictionary<Button, weldObjectType> weldObjectButtons = new()
+            Dictionary<Button, WeldObjectType> weldObjectButtons = new()
             {
-                { parallelButton, weldObjectType.parallelJoint },
-                { lJointButton, weldObjectType.lJoint },
-                { tJointButton, weldObjectType.tJoint }
+                { parallelButton, WeldObjectType.ParallelJoint },
+                { lJointButton, WeldObjectType.LJoint },
+                { tJointButton, WeldObjectType.TJoint }
             };
 
             // Assign listeners dynamically
@@ -45,11 +45,11 @@ namespace UI_Scripts
             }
 
             // Map weld setup buttons to types
-            Dictionary<Button, weldSetupType> weldSetupButtons = new()
+            Dictionary<Button, WeldSetupType> weldSetupButtons = new()
             {
-                { migButton, weldSetupType.MIG },
-                { tigButton, weldSetupType.TIG },
-                { stickButton, weldSetupType.Stick }
+                { migButton, WeldSetupType.Mig },
+                { tigButton, WeldSetupType.Tig },
+                { stickButton, WeldSetupType.Stick }
             };
 
             // Assign listeners dynamically
@@ -59,14 +59,14 @@ namespace UI_Scripts
             }
         }
 
-        private void SelectWeldObjectType(weldObjectType weldObjectType)
+        private void SelectWeldObjectType(WeldObjectType weldObjectType)
         {
             selectedWeldObjectType = weldObjectType;
             weldSetupPanel.SetActive(true);
             weldObjectPanel.SetActive(false);
         }
 
-        private void SelectWeldSetupType(weldSetupType weldSetupType)
+        private void SelectWeldSetupType(WeldSetupType weldSetupType)
         {
             OnOnWeldSelectionComplete?.Invoke(selectedWeldObjectType, weldSetupType);
             weldSetupPanel.SetActive(false);

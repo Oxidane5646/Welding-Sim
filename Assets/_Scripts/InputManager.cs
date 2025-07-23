@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] InputActionAsset inputActions;
     private InputAction weld;
+    private InputAction equip;
 
     public event Action OnWeldPressed;
     public event Action OnEquipKeyPressed;
@@ -13,12 +14,21 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         weld = inputActions.FindActionMap("XRI RightHand Interaction").FindAction("weld");
+        equip = inputActions.FindActionMap("XRI RightHand Interaction").FindAction("equip");
         weld.Enable();
+        equip.Enable();
+        equip.performed += OnEquipPressed;
+    }
+    
+    private void OnEquipPressed(InputAction.CallbackContext context)
+    {
+        OnEquipKeyPressed?.Invoke();
     }
 
     private void OnDestroy()
     {
         weld.Disable();
+        equip.Disable();
     }
 
 
@@ -27,6 +37,7 @@ public class InputManager : MonoBehaviour
         WeldCheck();
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void WeldCheck()
     {
         if (weld == null) return;
@@ -36,5 +47,7 @@ public class InputManager : MonoBehaviour
             OnWeldPressed?.Invoke();
         }
     }
+    
+    
 
 }

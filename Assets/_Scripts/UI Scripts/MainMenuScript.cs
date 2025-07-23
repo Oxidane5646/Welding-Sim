@@ -31,16 +31,22 @@ namespace UI_Scripts
         private void OnExperimentButtonSelected()
         {
             exprimentCanvas.GameObject().SetActive(true);
+            this.gameObject.SetActive(false);
         }
 
         private void OnTutorialButtonSelected()
         {
             tutorialCanvas.GameObject().SetActive(true);
+            this.gameObject.SetActive(false);
         }
 
         private void OnExitButtonSelected()
         {
-            
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #else
+            Application.Quit();
+            #endif
         }
     }
 }

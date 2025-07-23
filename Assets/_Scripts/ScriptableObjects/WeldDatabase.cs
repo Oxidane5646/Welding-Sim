@@ -8,7 +8,7 @@ public class WeldDatabase : ScriptableObject
     [Serializable]
     public class WeldObject
     {
-        public weldObjectType weldObjectType;
+        public WeldObjectType weldObjectType;
         public GameObject prefab;
     }
 
@@ -16,14 +16,14 @@ public class WeldDatabase : ScriptableObject
 
     public class WeldSetup
     {
-        public weldSetupType weldSetupType;
+        public WeldSetupType weldSetupType;
         public GameObject prefab;
     }
 
     [SerializeField] List<WeldObject> weldObjects = new List<WeldObject>();
     [SerializeField] List<WeldSetup> weldSetups = new List<WeldSetup>();
 
-    public GameObject GetWeldObject(weldObjectType weldObjectType)
+    public GameObject GetWeldObject(WeldObjectType weldObjectType)
     {
         foreach (WeldObject weldObject in weldObjects)
         {
@@ -36,7 +36,7 @@ public class WeldDatabase : ScriptableObject
         return null;
     }
 
-    public GameObject GetWeldSetup(weldSetupType weldSetupType)
+    public GameObject GetWeldSetup(WeldSetupType weldSetupType)
     {
         foreach (WeldSetup weldSetup in weldSetups)
         {

@@ -1586,6 +1586,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "equip",
+                    "type": "Button",
+                    "id": "b2cea61f-daf7-4872-ba49-e7a77614e877",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1762,6 +1771,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "weld",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "849429a9-13db-48d7-9647-47114a65dd45",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "equip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
