@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipPEEScript : MonoBehaviour
@@ -90,5 +91,11 @@ public class EquipPEEScript : MonoBehaviour
     public bool IsItemEquipped(string itemTag)
     {
         return equippedState.ContainsKey(itemTag) && equippedState[itemTag];
+    }
+
+    public Dictionary<string, bool> GetEquippedState()
+    {
+        Dictionary<string, bool> equippedItems = new Dictionary<string, bool>();
+        return equippedItems;
     }
 }
