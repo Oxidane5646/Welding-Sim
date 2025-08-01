@@ -6,24 +6,12 @@ using UnityEngine;
 public class JoinPlates : MonoBehaviour
 {
     /*Note:
-     * Make this class more effecient and make dynamic adding of weldpoints 
      * implement the fixed joint system properly
-     * This class needs the reference of the weldspawner to make it self sufficient and subcribe to the onweldraycasthit event action
      */
 
     private bool isJoined = false;
 
     public event Action<float> OnCompletionPercentageChanged;
-
-    private void OnEnable()
-    {
-       
-    }
-
-    private void JoinPlatesFunction()
-    {
-
-    }
 
     public class WeldPoint
     {
@@ -41,6 +29,13 @@ public class JoinPlates : MonoBehaviour
     [SerializeField] Rigidbody[] objectsToConnect;
 
     WeldPoint[] weldPoints;
+
+    private WeldSpawner weldSpawner;
+
+    public void SetScriptReferences(WeldSpawner currentWeldSpawner)
+    {
+        currentWeldSpawner = this.weldSpawner;
+    }
 
     private void Start()
     {
@@ -115,4 +110,27 @@ public class JoinPlates : MonoBehaviour
         return (float)hitcount / weldPoints.Length * 100f;
     }
 
+    private void JoinWeldObject(RaycastHit hit)
+    {
+        UpdateWeldPoints(hit);
+
+        if (CanJoinPlates())
+        {
+            ConnectPlates();
+        }
+    }
+
+    #region Unity LifeCycle
+
+    private void OnEnable()
+    {
+        weldSpawner.OnWeldRaycastHit += JoinWeldObject;
+    }
+
+    private void OnDisable()
+    {
+        weldSpawner.OnWeldRaycastHit -= JoinWeldObject;
+    }
+
+    #endregion
 }

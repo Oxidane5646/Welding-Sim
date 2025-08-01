@@ -16,6 +16,8 @@ namespace UI_Scripts
         [SerializeField] private Button tutorialCanvasButton;
         [SerializeField] private Button exitButton;
 
+        public event Action<GameMode> OnGameModeSelected;
+
         private void Start()
         {
             InitializeButtonFunction();
@@ -31,12 +33,14 @@ namespace UI_Scripts
         private void OnExperimentButtonSelected()
         {
             exprimentCanvas.GameObject().SetActive(true);
+            OnGameModeSelected?.Invoke(GameMode.Expriment);
             this.gameObject.SetActive(false);
         }
 
         private void OnTutorialButtonSelected()
         {
             tutorialCanvas.GameObject().SetActive(true);
+            OnGameModeSelected?.Invoke(GameMode.Tutorial);
             this.gameObject.SetActive(false);
         }
 

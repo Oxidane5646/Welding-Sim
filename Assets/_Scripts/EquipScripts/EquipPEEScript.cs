@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class EquipPEEScript : MonoBehaviour
 {
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Transform raycastPoint;
     [SerializeField] private float raycastDistance = 2f; // Made raycast distance configurable
+    [SerializeField] private XRDirectInteractor directInteractor;
+ 
 
     // Use a dictionary to manage equipment state and associated tags
     private SerializableDictionary<string, bool> equippedState = new SerializableDictionary<string, bool>
@@ -97,5 +100,10 @@ public class EquipPEEScript : MonoBehaviour
     {
         Dictionary<string, bool> equippedItems = new Dictionary<string, bool>();
         return equippedItems;
+    }
+
+    public bool IsWeldTorchEquipped()
+    {
+        return false;
     }
 }

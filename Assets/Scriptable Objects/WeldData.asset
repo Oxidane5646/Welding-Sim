@@ -23,7 +23,7 @@ MonoBehaviour:
     prefab: {fileID: 1648630426089446039, guid: 48935a935476fb148b75e613b7816aaf,
       type: 3}
   - weldObjectType: 1
-    prefab: {fileID: 8388902946872109914, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+    prefab: {fileID: 6107425425819799366, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
       type: 3}
   weldSetups:
   - weldSetupType: 2

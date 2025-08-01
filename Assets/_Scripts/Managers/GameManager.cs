@@ -5,27 +5,55 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] WeldDatabase weldDatabase;
+    [SerializeField] WeldDatabase weldDatabase; // to new script 
     [SerializeField] UIManager uiManager; 
-    [SerializeField] newWeldManager newWeldManager;
+    [SerializeField] newWeldManager newWeldManager; // tp mew script (bad referencing)
     [SerializeField] private ExperimentMenuCanvas experimentMenu;
+    [SerializeField] private MainMenuScript mainMenu;
     
     [Header("Spawn Points")]
-    [SerializeField] Transform weldObjectSpawn;
-    [SerializeField] Transform weldSetupSpawn;
+    [SerializeField] Transform weldObjectSpawn; // to new script 
+    [SerializeField] Transform weldSetupSpawn; // to new script 
 
     private WeldSpawner currentWeldSpawner;
     private JoinPlates currentJoinPlates;
     private ParticleSystem weldParticles;
-    
-    private void Awake()
+
+    private void OnEnable()
     {
-        if (experimentMenu != null)
-        {
-            experimentMenu.OnOnWeldSelectionComplete += InitializeWeldData;
-        }
+        InitializeEventListeners();
     }
+
+    private void OnDisable()
+    {
+        DisableEventListenrs();
+    }
+
+    private void InitializeEventListeners()
+    {
+        if(experimentMenu == null) { return; }
+        if(mainMenu == null) { return; }
+
+        //Note:- Onweldselectioncomplete only need to be subscribed to when GameMode.experiment is selected
+        experimentMenu.OnWeldSelectionComplete += InitializeWeldData;
+        mainMenu.OnGameModeSelected += HandleGameModeSelection;
+
+    }
+
+    private void DisableEventListenrs()
+    {
+        //Note :- check if these need null checks 
+        if (experimentMenu == null) { return; }
+        if (mainMenu == null) { return; }
     
+        //Note:- Onweldselectioncomplete only need to be subscribed to when GameMode.experiment is selected
+        experimentMenu.OnWeldSelectionComplete -= InitializeWeldData;
+
+        mainMenu.OnGameModeSelected -= HandleGameModeSelection;
+    }
+
+    #region Spawn Weld Setup And Object
+
     private void InitializeWeldData(WeldObjectType weldObjectType, WeldSetupType weldSetupType)
     {
         if (weldDatabase == null) return;
@@ -39,16 +67,17 @@ public class GameManager : MonoBehaviour
 
         // Spawn and configure the weld setup
         GameObject currentWeldSetup = BuildSetup(weldSetupType);
-        
+
         if (currentWeldSetup != null)
         {
             currentWeldSpawner = currentWeldSetup.GetComponent<WeldSpawner>();
             weldParticles = currentWeldSetup.GetComponentInChildren<ParticleSystem>();
         }
-        
-        newWeldManager.SetScriptReferences(currentWeldSpawner, currentJoinPlates , weldParticles);
+
+        newWeldManager.SetScriptReferences(currentWeldSpawner, currentJoinPlates, weldParticles);
+        currentJoinPlates.SetScriptReferences(currentWeldSpawner);
     }
-    
+
     private GameObject BuildObject(WeldObjectType weldObjectType)
     {
         GameObject weldObjectPrefab = weldDatabase?.GetWeldObject(weldObjectType);
@@ -66,14 +95,30 @@ public class GameManager : MonoBehaviour
         if (currentWeldSpawner != null) Destroy(currentWeldSpawner.gameObject);
         if (currentJoinPlates != null) Destroy(currentJoinPlates.gameObject);
     }
-    
+
+    #endregion
+
+
+
     private void OnDestroy()
     {
         if (experimentMenu != null)
         {
-            experimentMenu.OnOnWeldSelectionComplete -= InitializeWeldData;
+            
         }
     }
     
+    private void HandleGameModeSelection(GameMode gameMode)
+    {
+        if(gameMode == GameMode.Expriment)
+        {
+            
+        }
+
+        else if (gameMode == GameMode.Tutorial)
+        {
+            InitializeWeldData(WeldObjectType.Basic, WeldSetupType.Basic);
+        }
+    }
     
 }

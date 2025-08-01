@@ -19,35 +19,10 @@ public class newWeldManager : MonoBehaviour
     private JoinPlates currentJoinPlates;
     private ParticleSystem weldParticles;
 
-    private void Awake()
-    {
-        inputManager = GetComponent<InputManager>();
-    }
-
-    private void Start()
-    {
-        inputManager.OnWeldPressed += Welding;
-        //Change the function of line 45
-        //currentWeldSpawner.OnWeldRaycastHit += JoinPlatesFunction;
-    }
-
     private void Welding()
     {
         currentWeldSpawner.SpawnWeld();
         SpawnWeldParticle();
-    }
-
-    private void JoinPlatesFunction(RaycastHit hit)
-    {
-        if (currentJoinPlates != null)
-        {
-            currentJoinPlates.UpdateWeldPoints(hit);
-
-            if (currentJoinPlates.CanJoinPlates())
-            {
-                currentJoinPlates.ConnectPlates();
-            }
-        }
     }
 
     private void SpawnWeldParticle()
@@ -62,23 +37,51 @@ public class newWeldManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void InitializeEventListeners()
     {
-        inputManager.OnWeldPressed -= Welding;
+        inputManager.OnWeldPressed += Welding;
+        //currentWeldSpawner.OnWeldRaycastHit += JoinPlatesFunction;
     }
 
-    private void OnDisable()
+    private void DisableEventListeners()
     {
         inputManager.OnWeldPressed -= Welding;
         //currentWeldSpawner.OnWeldRaycastHit -= JoinPlatesFunction;
     }
 
-    public void SetScriptReferences(WeldSpawner weldSpawner, JoinPlates joinPlates , ParticleSystem weldParticle)
+
+
+    #region Unity LifeCycle
+
+    private void Awake()
+    {
+        inputManager = GetComponent<InputManager>();
+    }
+
+    private void OnEnable()
+    {
+        InitializeEventListeners();
+    }
+
+    private void OnDisable()
+    {
+        DisableEventListeners();
+    }
+
+    #endregion
+
+
+    #region Public API
+
+    public void SetScriptReferences(WeldSpawner weldSpawner, JoinPlates joinPlates, ParticleSystem weldParticle)
     {
         currentWeldSpawner = weldSpawner;
         currentJoinPlates = joinPlates;
         weldParticles = weldParticle;
     }
+
+    #endregion
+
 }
 
 

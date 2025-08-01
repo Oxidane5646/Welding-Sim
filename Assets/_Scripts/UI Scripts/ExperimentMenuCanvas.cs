@@ -26,7 +26,7 @@ namespace UI_Scripts
         private WeldObjectType selectedWeldObjectType;
 
         // Event now sends both weldObjectType and weldSetupType
-        public event Action<WeldObjectType, WeldSetupType> OnOnWeldSelectionComplete;
+        public event Action<WeldObjectType, WeldSetupType> OnWeldSelectionComplete;
 
         private void Start()
         {
@@ -68,7 +68,7 @@ namespace UI_Scripts
 
         private void SelectWeldSetupType(WeldSetupType weldSetupType)
         {
-            OnOnWeldSelectionComplete?.Invoke(selectedWeldObjectType, weldSetupType);
+            OnWeldSelectionComplete?.Invoke(selectedWeldObjectType, weldSetupType);
             weldSetupPanel.SetActive(false);
         }
     }
