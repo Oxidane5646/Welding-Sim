@@ -10,7 +10,7 @@ public class FillerRodCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "weldable")
+        if (other.CompareTag("weldable"))
         {
             isColliding = true;
         }
@@ -18,7 +18,7 @@ public class FillerRodCollision : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "weldable")
+        if (other.CompareTag("weldable"))
         {
             isColliding = false;
         }

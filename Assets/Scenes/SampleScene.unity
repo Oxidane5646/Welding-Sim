@@ -889,6 +889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253849711}
   - component: {fileID: 253849712}
+  - component: {fileID: 253849713}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -923,13 +924,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7eef516426ad3d4d924e403f8ced1c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weldDatabase: {fileID: 11400000, guid: 9517c2b6e88072d45be0147835543f4b, type: 2}
   uiManager: {fileID: 1641979219}
-  newWeldManager: {fileID: 312537678}
+  weldObjectsInitializer: {fileID: 312537680}
   experimentMenu: {fileID: 403406057}
   mainMenu: {fileID: 1195278524}
-  weldObjectSpawn: {fileID: 1534989640}
-  weldSetupSpawn: {fileID: 102025864}
+  instructionsManager: {fileID: 0}
+--- !u!114 &253849713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253849710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733039d9e1d894d48896cc25132d69ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
 --- !u!1 &312537674
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,7 +953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312537677}
   - component: {fileID: 312537678}
-  - component: {fileID: 312537679}
+  - component: {fileID: 312537680}
   m_Layer: 0
   m_Name: Weld Manager
   m_TagString: Untagged
@@ -975,7 +988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73c939008d73b349a9e9a65860e2302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &312537679
+  inputManager: {fileID: 253849713}
+--- !u!114 &312537680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -984,11 +998,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 312537674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 733039d9e1d894d48896cc25132d69ef, type: 3}
+  m_Script: {fileID: 11500000, guid: ddd31cd6c16bef84f94dcf79bf8f127b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  weldDatabase: {fileID: 11400000, guid: 9517c2b6e88072d45be0147835543f4b, type: 2}
+  newWeldManager: {fileID: 312537678}
+  weldObjectSpawn: {fileID: 1534989640}
+  weldSetupSpawn: {fileID: 102025864}
 --- !u!1001 &326856999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1051,6 +1067,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Interaction Setup
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1801,6 +1837,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!114 &445359495 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3385890772825029785, guid: 895f6f3c2d334633b5800312285058d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 326856999}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4253f32900bcc4d499d675566142ded0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &533695139
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,6 +3006,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1109239208}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &862063349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6688015753839463788, guid: 895f6f3c2d334633b5800312285058d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 326856999}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4253f32900bcc4d499d675566142ded0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &898542985
 GameObject:
   m_ObjectHideFlags: 0
@@ -3002,10 +3062,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49056d699a06ae747970adefbb8c0bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 312537679}
+  inputManager: {fileID: 253849713}
   raycastPoint: {fileID: 589913232}
   raycastDistance: 10
-  directInteractor: {fileID: 0}
+  leftHandInteractor: {fileID: 862063349}
+  rightHandInteractor: {fileID: 445359495}
 --- !u!1 &984282758
 GameObject:
   m_ObjectHideFlags: 0
@@ -5351,7 +5412,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1924437901
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5369,7 +5430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.24, y: 3.5}
+  m_AnchoredPosition: {x: 3.13, y: 3.5}
   m_SizeDelta: {x: 200, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1924437902
@@ -5467,7 +5528,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instructionText: {fileID: 692905928}
-  checkInterval: 0.1
   equipScript: {fileID: 898542987}
 --- !u!1 &1980050356
 GameObject:

@@ -1,14 +1,10 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InstructionsManager : MonoBehaviour
 {
     [Header("UI References")]
     public TMP_Text instructionText;
-    
-    [Header("Completion Check Settings")]
-    public float checkInterval = 0.1f; // How often to check for completion
     
     [Header("Other script references")]
     [SerializeField] private EquipPEEScript equipScript;
@@ -24,8 +20,6 @@ public class InstructionsManager : MonoBehaviour
     };
     
     private int currentStep = 0;
-    private float checkTimer = 0f;
-    private bool isSystemActive = true; //why?
     
     void Start()
     {
@@ -34,17 +28,9 @@ public class InstructionsManager : MonoBehaviour
     
     void Update()
     {
-        if (!isSystemActive) return; //why?
-        
-        // Check for completion at regular intervals
-        checkTimer += Time.deltaTime;
-        if (checkTimer >= checkInterval)
+        if (IsCurrentStepCompleted())
         {
-            if (IsCurrentStepCompleted())
-            {
-                AdvanceToNextStep();
-            }
-            checkTimer = 0f;
+            AdvanceToNextStep();
         }
     }
     
@@ -62,7 +48,7 @@ public class InstructionsManager : MonoBehaviour
                 return equipScript.IsItemEquipped("WeldApron");
                 
             case 3: // Grab weld gun
-                return IsWeldGunGrabbed();
+                return equipScript.IsItemEquipped("WeldTorch");
                 
             case 4: // Insert electrode
                 return IsElectrodeInserted();
@@ -82,8 +68,6 @@ public class InstructionsManager : MonoBehaviour
             currentStep++;
             UpdateInstruction();
             
-            // Optional: Add completion feedback for previous step
-            Debug.Log($"Step {currentStep} completed! Moving to next step.");
         }
         else
         {
@@ -95,31 +79,22 @@ public class InstructionsManager : MonoBehaviour
     {
         // Update instruction text
         if (instructionText)
+        {
             instructionText.text = instructions[currentStep];
-        
-        Debug.Log($"Current Step: {instructions[currentStep]}");
+        }   
     }
     
     //Modify this to remove the tutorial canvas or do some other thing 
     private void CompleteInstructions()
     {
-        isSystemActive = false;
-        
         if (instructionText)
             instructionText.text = "WELDING PREPARATION COMPLETE!\nYou may now begin welding safely.";
-            
-        Debug.Log("All welding instructions completed!");
+        
         OnInstructionsComplete();
     }
     
     // COMPLETION CHECK METHODS - IMPLEMENT THESE BASED ON YOUR GAME LOGIC
     
-    private bool IsWeldGunGrabbed()
-    {
-        // Implement your weld gun grab check here
-        // return PlayerHands.Instance.isHoldingWeldGun;
-        return false;
-    }
     
     private bool IsElectrodeInserted()
     {
@@ -138,19 +113,16 @@ public class InstructionsManager : MonoBehaviour
     public void RestartInstructions()
     {
         currentStep = 0;
-        isSystemActive = true;
-        checkTimer = 0f;
         UpdateInstruction();
     }
     
     // Method to force advance (for testing)
     public void ForceNextStep()
     {
-        if (isSystemActive)
             AdvanceToNextStep();
     }
     
-    // Event for when instructions are completed
+    
     private void OnInstructionsComplete()
     {
         // Add your completion logic here
@@ -160,5 +132,4 @@ public class InstructionsManager : MonoBehaviour
     // Get current step info
     public int GetCurrentStep() { return currentStep; }
     public string GetCurrentInstruction() { return instructions[currentStep]; }
-    public bool IsSystemComplete() { return !isSystemActive; }
 }

@@ -26,7 +26,7 @@ public class JoinPlates : MonoBehaviour
 
     [SerializeField] BoxCollider[] jointColliders;
     [SerializeField] Rigidbody centralBody;
-    [SerializeField] Rigidbody[] objectsToConnect;
+    [SerializeField] GameObject[] objectsToConnect;
 
     WeldPoint[] weldPoints;
 
@@ -34,7 +34,7 @@ public class JoinPlates : MonoBehaviour
 
     public void SetScriptReferences(WeldSpawner currentWeldSpawner)
     {
-        currentWeldSpawner = this.weldSpawner;
+        weldSpawner = currentWeldSpawner;
     }
 
     private void Start()
@@ -84,17 +84,19 @@ public class JoinPlates : MonoBehaviour
 
     public void ConnectPlates()
     {
-        if (isJoined) { return; }
+        //disabled just for debugging reasons
+        //if (isJoined) { return; }
 
         Debug.Log("Plates are connected");
 
-        foreach (Rigidbody obj in objectsToConnect)
+        foreach (GameObject obj in objectsToConnect)
         {
-            FixedJoint joint = obj.gameObject.AddComponent<FixedJoint>();
+            FixedJoint joint = obj.AddComponent<FixedJoint>();
+            
             joint.connectedBody = centralBody;
         }
 
-        isJoined = true;
+        //isJoined = true;
     }
 
     public float CompletionPercentage()
@@ -124,13 +126,27 @@ public class JoinPlates : MonoBehaviour
 
     private void OnEnable()
     {
+        if (!weldSpawner) return;
         weldSpawner.OnWeldRaycastHit += JoinWeldObject;
     }
 
     private void OnDisable()
     {
+        if (!weldSpawner) return;
         weldSpawner.OnWeldRaycastHit -= JoinWeldObject;
     }
 
+    #endregion
+    
+    #region Debugging
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ConnectPlates();
+        }
+    }
+    
     #endregion
 }

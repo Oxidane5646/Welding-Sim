@@ -29,8 +29,9 @@ public class WeldSpawner : MonoBehaviour
         {
             return false;
         }
-
+        
         var hitResult = GetPositionRaycastVR(rayReference, maxHitDistance);
+        
         if (!hitResult.HasValue)
         {
             return false;
@@ -103,10 +104,10 @@ public class WeldSpawner : MonoBehaviour
 
     void ValidateComponents()
     {
-        if (weldBeadPrefab == null)
+        if (!weldBeadPrefab)
             Debug.LogError($"[{gameObject.name}] Weld bead prefab is not assigned!");
 
-        if (rayReference == null)
+        if (!rayReference)
             Debug.LogError($"[{gameObject.name}] Ray reference is not assigned!");
     }
 }

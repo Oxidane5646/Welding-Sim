@@ -12,7 +12,7 @@ public class newWeldManager : MonoBehaviour
      *   create a seperate class for the particle effects and audio effects 
      */
 
-    private InputManager inputManager;
+    [SerializeField] InputManager inputManager;
 
     // Script References
     private WeldSpawner currentWeldSpawner;
@@ -52,11 +52,6 @@ public class newWeldManager : MonoBehaviour
 
 
     #region Unity LifeCycle
-
-    private void Awake()
-    {
-        inputManager = GetComponent<InputManager>();
-    }
 
     private void OnEnable()
     {

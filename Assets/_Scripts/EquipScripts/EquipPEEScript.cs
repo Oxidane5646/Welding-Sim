@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class EquipPEEScript : MonoBehaviour
@@ -8,28 +8,26 @@ public class EquipPEEScript : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Transform raycastPoint;
     [SerializeField] private float raycastDistance = 2f; // Made raycast distance configurable
-    [SerializeField] private XRDirectInteractor directInteractor;
- 
+    
+    [SerializeField] private XRDirectInteractor leftHandInteractor;
+    [SerializeField] private XRDirectInteractor rightHandInteractor;
 
     // Use a dictionary to manage equipment state and associated tags
     private SerializableDictionary<string, bool> equippedState = new SerializableDictionary<string, bool>
     {
         {"WeldMask", false},
         {"WeldGloves", false},
-        {"WeldApron", false}
+        {"WeldApron", false},
+        {"WeldTorch", false},
     };
 
     // Event to notify when a specific item is equipped
     public event Action<string> OnItemEquipped;
 
-    private bool isEquipKeyPressed;
-
     private void Awake()
     {
-        if (inputManager == null)
+        if (!inputManager)
         {
-            Debug.LogError("InputManager not assigned to EquipPEEScript.", this);
-            enabled = false; // Disable the script if InputManager is missing
             return;
         }
         inputManager.OnEquipKeyPressed += HandleEquipKeyPressed;
@@ -45,33 +43,23 @@ public class EquipPEEScript : MonoBehaviour
 
     private void HandleEquipKeyPressed()
     {
-        isEquipKeyPressed = true;
-    }
-
-    private void Update()
-    {
-        // Only attempt to equip if the key was pressed
-        if (isEquipKeyPressed)
-        {
-            AttemptEquip();
-            isEquipKeyPressed = false; // Reset the key press after attempting to equip
-        }
+        AttemptEquip();
     }
 
     private void AttemptEquip()
     {
-        // Check if all essential items are already equipped (can be customized)
+        // Check if all essential items are already equipped 
         if (equippedState["WeldMask"] && equippedState["WeldGloves"] && equippedState["WeldApron"])
         {
-            return; // All required items equipped, no need to proceed
+            return; 
         }
 
         if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, out RaycastHit hit, raycastDistance))
         {
             string hitTag = hit.collider.tag;
 
-            // Check if the hit object is a recognizable equipment item and not already equipped
-            if (equippedState.ContainsKey(hitTag) && !equippedState[hitTag])
+            // Check if the hit object is a recognizable equipment item 
+            if (equippedState.ContainsKey(hitTag))
             {
                 EquipItem(hit.transform.gameObject, hitTag);
             }
@@ -81,29 +69,60 @@ public class EquipPEEScript : MonoBehaviour
     private void EquipItem(GameObject itemObject, string itemTag)
     {
         equippedState[itemTag] = true;
-        Debug.Log($"{itemTag} equipped!");
         Destroy(itemObject);
-        OnItemEquipped?.Invoke(itemTag); // Notify listeners
+        OnItemEquipped?.Invoke(itemTag); 
     }
-
-    /// <summary>
-    /// Checks if a specific item is equipped.
-    /// </summary>
-    /// <param name="itemTag">The tag of the item to check.</param>
-    /// <returns>True if the item is equipped, false otherwise.</returns>
+    
+    
     public bool IsItemEquipped(string itemTag)
     {
-        return equippedState.ContainsKey(itemTag) && equippedState[itemTag];
+        return equippedState.TryGetValue(itemTag, value: out bool equipped) && equipped;
     }
 
-    public Dictionary<string, bool> GetEquippedState()
+    private void OnEnable()
     {
-        Dictionary<string, bool> equippedItems = new Dictionary<string, bool>();
-        return equippedItems;
+        InitializeEventListeners();
+    }
+    
+    private void OnDisable()
+    {
+        DisableEventListeners();
     }
 
-    public bool IsWeldTorchEquipped()
+    private void InitializeEventListeners()
     {
-        return false;
+        rightHandInteractor.selectEntered.AddListener(OnGrab);
+        leftHandInteractor.selectEntered.AddListener(OnGrab);
+        
+        rightHandInteractor.selectExited.AddListener(OnRelease);
+        leftHandInteractor.selectExited.AddListener(OnRelease);
     }
+    
+    private void DisableEventListeners()
+    {
+        rightHandInteractor.selectEntered.RemoveListener(OnGrab);
+        leftHandInteractor.selectEntered.RemoveListener(OnGrab);
+        
+        rightHandInteractor.selectExited.RemoveListener(OnRelease);
+        leftHandInteractor.selectExited.RemoveListener(OnRelease);
+    }
+
+    private void OnGrab(SelectEnterEventArgs args)
+    {
+        GameObject grabbedObject = args.interactableObject.transform.gameObject;
+        if (grabbedObject.CompareTag("WeldTorch"))
+        {
+            equippedState["WeldTorch"] = true;
+        }
+    }
+
+    private void OnRelease(SelectExitEventArgs args)
+    {
+        GameObject releasedObject = args.interactableObject.transform.gameObject;
+        if (releasedObject.CompareTag("WeldTorch"))
+        {
+            equippedState["WeldTorch"] = false;
+        }
+    }
+    
 }
