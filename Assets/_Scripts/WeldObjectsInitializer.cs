@@ -15,6 +15,7 @@ public class WeldObjectsInitializer : MonoBehaviour
     private WeldSpawner currentWeldSpawner;
     private JoinPlates currentJoinPlates;
     private ParticleSystem weldParticles;
+    private ParameterCalculator currentParametersCalculator;
     
 
     private GameObject BuildObject(WeldObjectType weldObjectType)
@@ -41,8 +42,9 @@ public class WeldObjectsInitializer : MonoBehaviour
     private void GetScriptReferences(GameObject currentWeldObject, GameObject currentWeldSetup)
     {
         currentJoinPlates = currentWeldObject?.GetComponent<JoinPlates>();
-        currentWeldSpawner = currentWeldSetup.GetComponent<WeldSpawner>();
-        weldParticles = currentWeldSetup.GetComponentInChildren<ParticleSystem>();
+        currentWeldSpawner = currentWeldSetup?.GetComponent<WeldSpawner>();
+        weldParticles = currentWeldSetup?.GetComponentInChildren<ParticleSystem>();
+        currentParametersCalculator = currentWeldSetup?.GetComponent<ParameterCalculator>();
     }
     
 
@@ -73,6 +75,12 @@ public class WeldObjectsInitializer : MonoBehaviour
         if (currentJoinPlates == null) return;
         
         currentJoinPlates.SetScriptReferences(currentWeldSpawner);
+        
+    }
+
+    public ParameterCalculator GetParametersCalculator()
+    {
+        return currentParametersCalculator;
     }
     
     #endregion

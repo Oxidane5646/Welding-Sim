@@ -1,5 +1,376 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1169707813909283101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7651806030803592226}
+  - component: {fileID: 672043983603088239}
+  m_Layer: 0
+  m_Name: Weld Point 7
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7651806030803592226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169707813909283101}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: -0.05910001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &672043983603088239
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169707813909283101}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1325728829898107354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8678031149084950308}
+  - component: {fileID: 3159712248097844692}
+  m_Layer: 0
+  m_Name: Weld Point 4
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8678031149084950308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325728829898107354}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: 0.06089999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3159712248097844692
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325728829898107354}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1658166816473670204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8571040553957773544}
+  - component: {fileID: 8571377317602913185}
+  m_Layer: 0
+  m_Name: Weld Point 6
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8571040553957773544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658166816473670204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: -0.019100007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8571377317602913185
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658166816473670204}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2086953177090045517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7981944423717479306}
+  - component: {fileID: 7388589233810581761}
+  m_Layer: 0
+  m_Name: Weld Point 9
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7981944423717479306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086953177090045517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: -0.139}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7388589233810581761
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086953177090045517}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2476370791522311355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7539156508234574127}
+  - component: {fileID: 2829588090176034295}
+  m_Layer: 0
+  m_Name: Weld Point 8
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7539156508234574127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476370791522311355}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: -0.099}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2829588090176034295
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476370791522311355}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6278475554916603361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8227042874800951089}
+  - component: {fileID: 3608176994700735074}
+  m_Layer: 0
+  m_Name: Weld Point 10
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8227042874800951089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278475554916603361}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: -0.179}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3608176994700735074
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278475554916603361}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8979104933662682452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1152920300491545802}
+  - component: {fileID: 4080629509745575398}
+  m_Layer: 0
+  m_Name: Weld Point 5
+  m_TagString: weldPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1152920300491545802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979104933662682452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0050999993, z: 0.020899992}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4409976439315605425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4080629509745575398
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979104933662682452}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.03, z: 0.03}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2353889298096825372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23,6 +394,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.0185
       objectReference: {fileID: 0}
+    - target: {fileID: 965987259745763407, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0050999993
+      objectReference: {fileID: 0}
+    - target: {fileID: 965987259745763407, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.100899994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1959811953032196387, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37,6 +423,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[3]
+      value: 
+      objectReference: {fileID: 3159712248097844692}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[4]
+      value: 
+      objectReference: {fileID: 4080629509745575398}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[5]
+      value: 
+      objectReference: {fileID: 8571377317602913185}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[6]
+      value: 
+      objectReference: {fileID: 672043983603088239}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[7]
+      value: 
+      objectReference: {fileID: 2829588090176034295}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[8]
+      value: 
+      objectReference: {fileID: 7388589233810581761}
+    - target: {fileID: 3474466801599066895, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: jointColliders.Array.data[9]
+      value: 
+      objectReference: {fileID: 3608176994700735074}
+    - target: {fileID: 4054266694700164849, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0050999993
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054266694700164849, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.14089999
       objectReference: {fileID: 0}
     - target: {fileID: 5188301840969367637, guid: 5fb9f6cb894480743bdb81ed5309ec02,
         type: 3}
@@ -118,6 +554,26 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6644190173421705871, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276121162876043104, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0051
+      objectReference: {fileID: 0}
+    - target: {fileID: 7276121162876043104, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.1809
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782665313307871858, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 7939040279121266226, guid: 5fb9f6cb894480743bdb81ed5309ec02,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -166,6 +622,119 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 197461368106171374, guid: 5fb9f6cb894480743bdb81ed5309ec02, type: 3}
-    m_AddedGameObjects: []
+    - {fileID: 7123936003932728068, guid: 5fb9f6cb894480743bdb81ed5309ec02, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 3377780710839823108}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8678031149084950308}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1152920300491545802}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8571040553957773544}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7651806030803592226}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7539156508234574127}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7981944423717479306}
+    - targetCorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8227042874800951089}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fb9f6cb894480743bdb81ed5309ec02, type: 3}
+--- !u!4 &4409976439315605425 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2132968911259829165, guid: 5fb9f6cb894480743bdb81ed5309ec02,
+    type: 3}
+  m_PrefabInstance: {fileID: 2353889298096825372}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6546205733430947937
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4409976439315605425}
+    m_Modifications:
+    - target: {fileID: 4321010428280882387, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Weld Surface
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0008929838
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.018460108
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db71bc7909be3084f9f48385854fd6d0, type: 3}
+--- !u!4 &3377780710839823108 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8374587299932986213, guid: db71bc7909be3084f9f48385854fd6d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6546205733430947937}
+  m_PrefabAsset: {fileID: 0}

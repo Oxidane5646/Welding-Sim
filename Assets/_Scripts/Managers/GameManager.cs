@@ -4,11 +4,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
      
-    [SerializeField] private UIManager uiManager; 
+    [SerializeField] private UIManager uiManager; // not needed 
     [SerializeField] private WeldObjectsInitializer weldObjectsInitializer;
     [SerializeField] private ExperimentMenuCanvas experimentMenu;
     [SerializeField] private MainMenuScript mainMenu;
-    [SerializeField] private InstructionsManager instructionsManager;
+    [SerializeField] private InstructionsManager instructionsManager; // not needed i guess
+    [SerializeField] private ParametersUI parametersUI;
 
     private void OnEnable()
     {
@@ -64,5 +65,15 @@ public class GameManager : MonoBehaviour
             weldObjectsInitializer.InitializeWeldData(WeldObjectType.Basic, WeldSetupType.Basic);
         }
     }
+    #region Parameter Data transfer stupid code
     
+    //worst code i have ever written in my life 
+    private void SetParameters()
+    {
+        ParameterCalculator parameterCalculator =  weldObjectsInitializer.GetParametersCalculator();
+        parameterCalculator.GetParameters(out float distance, out float  angle, out float  speed);
+        parametersUI.Setparameters(distance, angle, speed);
+    }
+    
+    #endregion
 }

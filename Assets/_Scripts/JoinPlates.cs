@@ -55,7 +55,7 @@ public class JoinPlates : MonoBehaviour
 
     public void UpdateWeldPoints(RaycastHit hit)
     {
-        if (hit.collider == null || hit.transform == null) return; // null reference check for the raycasthit
+        if (!hit.collider || !hit.transform) return; // null reference check for the raycasthit
 
         if (hit.transform.CompareTag("weldPoint"))
         {
@@ -99,7 +99,7 @@ public class JoinPlates : MonoBehaviour
         //isJoined = true;
     }
 
-    public float CompletionPercentage()
+    public float GetCompletionPercentage()
     {
         if( weldPoints.Length == 0) return 0.0f;
         

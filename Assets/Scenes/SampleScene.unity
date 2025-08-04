@@ -928,7 +928,7 @@ MonoBehaviour:
   weldObjectsInitializer: {fileID: 312537680}
   experimentMenu: {fileID: 403406057}
   mainMenu: {fileID: 1195278524}
-  instructionsManager: {fileID: 0}
+  instructionsManager: {fileID: 1924437906}
 --- !u!114 &253849713
 MonoBehaviour:
   m_ObjectHideFlags: 0
