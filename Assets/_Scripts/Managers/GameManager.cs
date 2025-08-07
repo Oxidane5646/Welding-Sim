@@ -1,3 +1,4 @@
+using System;
 using UI_Scripts;
 using UnityEngine;
 
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (experimentMenu != null)
+        if (experimentMenu)
         {
             
         }
@@ -58,22 +59,32 @@ public class GameManager : MonoBehaviour
         if(gameMode == GameMode.Expriment)
         {
             //instructionsManager.gameObject.SetActive(true);
+            parametersUI.gameObject.SetActive(true);
         }
 
         else if (gameMode == GameMode.Tutorial)
         {
             weldObjectsInitializer.InitializeWeldData(WeldObjectType.Basic, WeldSetupType.Basic);
+            parametersUI.gameObject.SetActive(true);
         }
     }
     #region Parameter Data transfer stupid code
     
     //worst code i have ever written in my life 
-    private void SetParameters()
+    private void SetParameters(ParameterCalculator parameterCalculator)
     {
-        ParameterCalculator parameterCalculator =  weldObjectsInitializer.GetParametersCalculator();
         parameterCalculator.GetParameters(out float distance, out float  angle, out float  speed);
         parametersUI.Setparameters(distance, angle, speed);
     }
-    
+
+    private void Update()
+    {
+        ParameterCalculator parameterCalculator =  weldObjectsInitializer.GetParametersCalculator();
+        if (parameterCalculator)
+        {
+            SetParameters(parameterCalculator);
+        }
+    }
+
     #endregion
 }

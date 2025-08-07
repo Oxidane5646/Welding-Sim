@@ -14,7 +14,6 @@ namespace UI_Scripts
         [Header("Button References ")]
         [SerializeField] private Button exprimentCanvasButton;
         [SerializeField] private Button tutorialCanvasButton;
-        [SerializeField] private Button exitButton;
 
         public event Action<GameMode> OnGameModeSelected;
 
@@ -27,7 +26,6 @@ namespace UI_Scripts
         {
             exprimentCanvasButton.onClick.AddListener(() => OnExperimentButtonSelected());
             tutorialCanvasButton.onClick.AddListener(() => OnTutorialButtonSelected());
-            exitButton.onClick.AddListener(() => OnExitButtonSelected());
         }
 
         private void OnExperimentButtonSelected()
@@ -43,14 +41,6 @@ namespace UI_Scripts
             OnGameModeSelected?.Invoke(GameMode.Tutorial);
             this.gameObject.SetActive(false);
         }
-
-        private void OnExitButtonSelected()
-        {
-            #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-            #else
-            Application.Quit();
-            #endif
-        }
+        
     }
 }

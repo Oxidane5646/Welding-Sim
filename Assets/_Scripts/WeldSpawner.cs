@@ -44,7 +44,7 @@ public class WeldSpawner : MonoBehaviour
             return false;
         }
         
-        var hitResult = GetPositionRaycastVR(rayReference, maxHitDistance);
+        var hitResult = GetPositionRaycastVR();
         
         if (!hitResult.HasValue)
         {
@@ -96,15 +96,14 @@ public class WeldSpawner : MonoBehaviour
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
-    public RaycastHit? GetPositionRaycastVR(Transform rayReference, float maxHitDistance)
+    public RaycastHit? GetPositionRaycastVR()
     {
         if (!rayReference)
         {
             return null;
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayReference.position, rayReference.forward, out hit, maxHitDistance))
+        if (Physics.Raycast(rayReference.position, rayReference.forward, out RaycastHit hit, maxHitDistance))
         {
             OnWeldRaycastHit?.Invoke(hit);
             ChangeHighlightMaterail(hit);
@@ -145,10 +144,10 @@ public class WeldSpawner : MonoBehaviour
         GameObject hitObject = hit.collider?.gameObject;
         if (!hitObject) return;
 
-        string tag = hitObject.tag;
+        string hitObjectTag = hitObject.tag;
 
         // Only change material on last "weldable" object
-        if (tag == "weldable")
+        if (hitObjectTag == "weldable")
         {
             if (lastWeldableHitObject != hitObject)
             {
@@ -157,7 +156,7 @@ public class WeldSpawner : MonoBehaviour
                 lastWeldableHitObject = hitObject;
             }
         }
-        else if (tag == "weldPoint")
+        else if (hitObjectTag == "weldPoint")
         {
             // Only update material of lastWeldableHitObject if it's valid
             if (lastWeldableHitObject)
@@ -183,8 +182,8 @@ public class WeldSpawner : MonoBehaviour
 
     private void SetHighlightMaterial(Transform target, Material material)
     {
-        var renderer = target.GetComponent<MeshRenderer>();
-        if (renderer) renderer.material = material;
+        var meshRenderer = target.GetComponent<MeshRenderer>();
+        if (meshRenderer) meshRenderer.material = material;
     }
 
     public Vector3 GetSpawnPoint()

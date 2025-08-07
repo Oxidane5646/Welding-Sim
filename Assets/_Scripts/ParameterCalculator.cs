@@ -11,6 +11,7 @@ public class ParameterCalculator : MonoBehaviour
 
     private float currentDistance;
     private float currentAngle;
+    private RaycastHit? weldHit;
     
     private void GetAngleAndDistance()
     { 
@@ -38,12 +39,23 @@ public class ParameterCalculator : MonoBehaviour
         currentSpeed = speedDistance / Time.deltaTime;
 
         previousPosition = currentPosition;
+        weldHit = weldSpawner.GetPositionRaycastVR();
     }
 
     public void GetParameters(out float distance, out float angle, out float speed)
     {
-        distance = currentDistance;
-        angle = currentAngle;
-        speed = currentSpeed;
+        if (weldHit == null || (!weldHit.Value.transform.CompareTag("weldable") &&
+            !weldHit.Value.transform.CompareTag("weldPoint")))
+        {
+            distance = 0f;
+            angle = 0f;
+            speed = 0f;
+        }
+        else
+        {
+            distance = currentDistance;
+            angle = currentAngle;
+            speed = currentSpeed;
+        }
     }
 }
