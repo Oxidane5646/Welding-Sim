@@ -9,6 +9,8 @@ TagManager:
   - WeldMask
   - WeldGloves
   - WeldApron
+  - WeldTorch
+  - weldBead
   layers:
   - Default
   - TransparentFX

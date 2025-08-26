@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JoinPlates : MonoBehaviour
@@ -10,17 +8,18 @@ public class JoinPlates : MonoBehaviour
      */
 
     private bool isJoined = false;
+    private const float JoinThreshold = 60f;
 
     public event Action<float> OnCompletionPercentageChanged;
 
     public class WeldPoint
     {
-        public BoxCollider collider;
-        public bool isHit = false;
+        public  BoxCollider Collider;
+        public bool IsHit = false;
 
         public WeldPoint(BoxCollider collider)
         {
-            this.collider = collider;
+            this.Collider = collider;
         }
     }
 
@@ -29,7 +28,6 @@ public class JoinPlates : MonoBehaviour
     [SerializeField] GameObject[] objectsToConnect;
 
     WeldPoint[] weldPoints;
-
     private WeldSpawner weldSpawner;
 
     public void SetScriptReferences(WeldSpawner currentWeldSpawner)
@@ -39,80 +37,78 @@ public class JoinPlates : MonoBehaviour
 
     private void Start()
     {
-        weldPoints = BuildWeldPoints(jointColliders);
-    }
-
-    private WeldPoint[] BuildWeldPoints(BoxCollider[] colliders)
-    {
-        WeldPoint[] weldPoints = new WeldPoint[colliders.Length];
-
-        for (int i = 0; i < colliders.Length; i++)
+        weldPoints = new WeldPoint[jointColliders.Length];
+        for (int i = 0; i < jointColliders.Length; i++)
         {
-            weldPoints[i] = new WeldPoint(colliders[i]);
+            weldPoints[i] = new WeldPoint(jointColliders[i]);
         }
-        return weldPoints;
     }
 
     public void UpdateWeldPoints(RaycastHit hit)
     {
-        if (!hit.collider || !hit.transform) return; // null reference check for the raycasthit
+        if (hit.collider == null || !hit.collider.CompareTag("weldPoint"))
+            return;
 
-        if (hit.transform.CompareTag("weldPoint"))
+        Debug.Log("Weld Points Updated");
+
+        foreach (WeldPoint weldPoint in weldPoints)
         {
-
-            Debug.Log("Weld Points Updated");
-
-            foreach (WeldPoint weldPoint in weldPoints)
+            if (weldPoint.Collider == hit.collider)
             {
-                if (weldPoint.collider == hit.collider)
-                {
-                    weldPoint.isHit = true;
-                }
+                weldPoint.IsHit = true;
+                break; // Stop searching after finding the match
             }
         }
     }
 
-    // check if the vector3 spawnPoint is in 000 before using this fucntion
-    public bool CanJoinPlates()
+
+    public float GetCompletionPercentage()
     {
+        if (weldPoints.Length == 0) return 0f;
+        
+        int hitCount = 0;
         foreach (WeldPoint weldPoint in weldPoints)
         {
-            if (!weldPoint.isHit) { return false; }
+            if (weldPoint.IsHit) hitCount++;
         }
-        return true;
+
+        return (float)hitCount / weldPoints.Length * 100f;
+    }
+
+    public bool CanJoinPlates()
+    {
+        if (weldPoints.Length == 0)
+        {
+            Debug.Log("No weld points to check.");
+            return false;
+        }
+
+        float completionPercentage = GetCompletionPercentage();
+        bool canJoin = completionPercentage >= JoinThreshold;
+
+        Debug.Log($"Weld Summary: {completionPercentage:0.##}% complete - {(canJoin ? "CAN JOIN" : "CANNOT JOIN")}");
+
+        // Fire the completion percentage event
+        OnCompletionPercentageChanged?.Invoke(completionPercentage);
+
+        return canJoin;
     }
 
     public void ConnectPlates()
     {
-        //disabled just for debugging reasons
-        //if (isJoined) { return; }
+        if (isJoined) return;
 
         Debug.Log("Plates are connected");
 
         foreach (GameObject obj in objectsToConnect)
         {
-            FixedJoint joint = obj.AddComponent<FixedJoint>();
-            
-            joint.connectedBody = centralBody;
+            obj.transform.SetParent(centralBody.transform);
         }
 
-        //isJoined = true;
+        isJoined = true;
     }
 
-    public float GetCompletionPercentage()
-    {
-        if( weldPoints.Length == 0) return 0.0f;
-        
-        int hitcount = 0;
-        foreach (WeldPoint weldPoint in weldPoints)
-        {
-            if (weldPoint.isHit) hitcount++;
-        }
-
-        return (float)hitcount / weldPoints.Length * 100f;
-    }
-
-    private void JoinWeldObject(RaycastHit hit)
+    public void TryJoinWeldObject(RaycastHit hit)
     {
         UpdateWeldPoints(hit);
 
@@ -124,16 +120,12 @@ public class JoinPlates : MonoBehaviour
 
     #region Unity LifeCycle
 
-    private void OnEnable()
-    {
-        if (!weldSpawner) return;
-        weldSpawner.OnWeldRaycastHit += JoinWeldObject;
-    }
-
     private void OnDisable()
     {
-        if (!weldSpawner) return;
-        weldSpawner.OnWeldRaycastHit -= JoinWeldObject;
+        if (weldSpawner != null)
+        {
+            weldSpawner.OnWeldRaycastHit -= TryJoinWeldObject;
+        }
     }
 
     #endregion

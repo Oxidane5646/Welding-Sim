@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
         experimentMenu.OnWeldSelectionComplete -= weldObjectsInitializer.InitializeWeldData;
 
         mainMenu.OnGameModeSelected -= HandleGameModeSelection;
+        
+        
     }
     
 
@@ -68,21 +70,36 @@ public class GameManager : MonoBehaviour
             parametersUI.gameObject.SetActive(true);
         }
     }
+
+    private void SetPercentageReferenceEvent()
+    {
+        JoinPlates joinPlates = weldObjectsInitializer.GetJoinPlates();
+        if (joinPlates != null) return;
+        joinPlates.OnCompletionPercentageChanged -= parametersUI.SetPercentage;
+    }
+    
+    
+    
     #region Parameter Data transfer stupid code
     
     //worst code i have ever written in my life 
-    private void SetParameters(ParameterCalculator parameterCalculator)
+    private void SetParameters(ParameterCalculator parameterCalculator , JoinPlates joinPlates)
     {
         parameterCalculator.GetParameters(out float distance, out float  angle, out float  speed);
         parametersUI.Setparameters(distance, angle, speed);
+        float percentage = joinPlates.GetCompletionPercentage();
+        parametersUI.SetPercentage(percentage);
     }
 
     private void Update()
     {
         ParameterCalculator parameterCalculator =  weldObjectsInitializer.GetParametersCalculator();
-        if (parameterCalculator)
+        JoinPlates joinPlates = weldObjectsInitializer.GetJoinPlates();
+        
+        
+        if (parameterCalculator && joinPlates)
         {
-            SetParameters(parameterCalculator);
+            SetParameters(parameterCalculator , joinPlates);
         }
     }
 

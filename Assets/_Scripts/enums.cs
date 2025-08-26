@@ -4,7 +4,6 @@ public enum WeldObjectType
     Basic,
     ParallelJoint,
     LJoint,
-    // ReSharper disable once InconsistentNaming
     TJoint
 }
 

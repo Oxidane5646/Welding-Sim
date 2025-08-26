@@ -3,20 +3,13 @@ using UnityEngine;
 
 public class WeldSpawner : MonoBehaviour
 {
-    /*
-     *Note:
-     * create a more detailed way to simulate the welding process
-     * make the onweldraycasthit event more effecient and flexible
-     * make the canspawnweld method more flexible and efficient using variables for the tag references
-     */
-    
     [Header("Object References")]
     [SerializeField] private GameObject weldBeadPrefab;
     [SerializeField] private Transform rayReference;
     [SerializeField] private FillerRodCollision fillerRod;
     
     [Header("Weld Configuration")]
-    [SerializeField] private float weldResolution = 0.1f;
+    [SerializeField] private float weldResolution = 0.01f;
     [SerializeField] private float maxHitDistance = 10f;
 
     [Header("Weld Type (select only one type)")] 
@@ -27,6 +20,7 @@ public class WeldSpawner : MonoBehaviour
     GameObject currentBead;
     RaycastHit weldHit;
     Vector3 spawnPoint;
+    GameObject weldSurface;
 
     public event Action<RaycastHit> OnWeldRaycastHit;
     
@@ -53,6 +47,15 @@ public class WeldSpawner : MonoBehaviour
 
         weldHit = hitResult.Value;
         spawnPoint = weldHit.point;
+
+        //This is some stupid code
+        bool isWeldSurfaceAssigned = false;
+        
+        if (weldHit.transform.CompareTag("weldable") && !isWeldSurfaceAssigned)
+        {
+            weldSurface = weldHit.transform.gameObject;
+            isWeldSurfaceAssigned = true;
+        }
 
         // Check if we hit a valid collider with a tag
         if (!weldHit.collider)
@@ -92,6 +95,8 @@ public class WeldSpawner : MonoBehaviour
         if (CanSpawnWeld())
         {
             currentBead = Instantiate(weldBeadPrefab, spawnPoint, Quaternion.identity);
+            currentBead.transform.SetParent(weldSurface.transform);
+            currentBead.tag = "weldBead";
         }
     }
 
@@ -106,7 +111,7 @@ public class WeldSpawner : MonoBehaviour
         if (Physics.Raycast(rayReference.position, rayReference.forward, out RaycastHit hit, maxHitDistance))
         {
             OnWeldRaycastHit?.Invoke(hit);
-            ChangeHighlightMaterail(hit);
+            OnWeldHitChanged(hit);
             Debug.DrawRay(rayReference.position, rayReference.forward * hit.distance, Color.green);
             return hit;
         }
@@ -131,65 +136,44 @@ public class WeldSpawner : MonoBehaviour
             Debug.LogError($"[{gameObject.name}] Ray reference is not assigned!");
     }
 
-    #region Highlighting Material stupid code
-    
-    [Header("Highlighting Materail")]
-    [SerializeField] private Material greenHighlightMaterial;
-    [SerializeField] private Material redHighlightMaterial;
+    #region Some stupid highlightmaterial code
 
-    private GameObject lastWeldableHitObject;
+    [Header("Highlight Settings")]
+    [SerializeField] private Material greenMaterial;
+    [SerializeField] private Material redMaterial;
 
-    private void ChangeHighlightMaterail(RaycastHit hit)
+    private Renderer weldSurfaceRenderer;
+    private GameObject currentWeldSurface;  
+
+    // Call this whenever your raycast hits something new
+    public void OnWeldHitChanged(RaycastHit newHit)
     {
-        GameObject hitObject = hit.collider?.gameObject;
-        if (!hitObject) return;
-
-        string hitObjectTag = hitObject.tag;
-
-        // Only change material on last "weldable" object
-        if (hitObjectTag == "weldable")
+        // Update weld surface if hitting a weldable object
+        if (newHit.transform.CompareTag("weldable"))
         {
-            if (lastWeldableHitObject != hitObject)
+            if (currentWeldSurface != newHit.transform.gameObject)
             {
-                ResetLastWeldableObject(); // turn old one red
-                SetHighlightMaterial(hitObject.transform, greenHighlightMaterial);
-                lastWeldableHitObject = hitObject;
+                currentWeldSurface = newHit.transform.gameObject;
+                weldSurfaceRenderer = currentWeldSurface.GetComponent<Renderer>();
             }
         }
-        else if (hitObjectTag == "weldPoint")
-        {
-            // Only update material of lastWeldableHitObject if it's valid
-            if (lastWeldableHitObject)
-            {
-                SetHighlightMaterial(lastWeldableHitObject.transform, greenHighlightMaterial);
-            }
-        }
-        else
-        {
-            ResetLastWeldableObject();
-        }
-    }
 
+        // Skip if no weld surface exists
+        if (weldSurfaceRenderer == null) return;
 
-    private void ResetLastWeldableObject()
-    {
-        if (lastWeldableHitObject)
-        {
-            SetHighlightMaterial(lastWeldableHitObject.transform, redHighlightMaterial);
-            lastWeldableHitObject = null;
-        }
-    }
+        // Determine if hit is valid (weldable, weldPoint, or weldBead)
+        bool isValidHit = newHit.transform.CompareTag("weldable") || 
+                          newHit.transform.CompareTag("weldPoint") || 
+                          newHit.transform.CompareTag("weldBead");
 
-    private void SetHighlightMaterial(Transform target, Material material)
-    {
-        var meshRenderer = target.GetComponent<MeshRenderer>();
-        if (meshRenderer) meshRenderer.material = material;
+        // Apply material
+        weldSurfaceRenderer.material = isValidHit ? greenMaterial : redMaterial;
     }
 
     public Vector3 GetSpawnPoint()
     {
         return spawnPoint;
     }
-    
+
     #endregion
 }

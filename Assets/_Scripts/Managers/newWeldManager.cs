@@ -21,6 +21,7 @@ public class newWeldManager : MonoBehaviour
 
     private void Welding()
     {
+        if (!currentWeldSpawner) return;
         currentWeldSpawner.SpawnWeld();
         SpawnWeldParticle();
     }

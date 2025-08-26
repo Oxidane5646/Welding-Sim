@@ -326,6 +326,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1197246106532353811, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
+        type: 3}
+      propertyPath: objectsToConnect.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197246106532353811, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
+        type: 3}
+      propertyPath: objectsToConnect.Array.data[1]
+      value: 
+      objectReference: {fileID: 1652255694194411040}
+    - target: {fileID: 1197246106532353811, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
+        type: 3}
+      propertyPath: objectsToConnect.Array.data[2]
+      value: 
+      objectReference: {fileID: 665249213848562810}
     - target: {fileID: 2840972284605333797, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
         type: 3}
       propertyPath: m_LocalScale.z
@@ -465,6 +480,12 @@ PrefabInstance:
       addedObject: {fileID: 921673806273412355}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25, type: 3}
+--- !u!1 &665249213848562810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5412063486527601067, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,
+    type: 3}
+  m_PrefabInstance: {fileID: 4765076358950540753}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &911804625206048767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5658652855027704366, guid: bdf5f41b5bfbe5a4da6b26e0bca65e25,

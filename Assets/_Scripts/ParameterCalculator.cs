@@ -44,8 +44,21 @@ public class ParameterCalculator : MonoBehaviour
 
     public void GetParameters(out float distance, out float angle, out float speed)
     {
-        if (weldHit == null || (!weldHit.Value.transform.CompareTag("weldable") &&
-            !weldHit.Value.transform.CompareTag("weldPoint")))
+        Transform weldTransform = null;
+        if (weldHit.HasValue)
+        {
+            weldTransform = weldHit.Value.transform;
+        }
+        else
+        {
+            distance = 0;
+            angle = 0;
+            speed = 0;
+        }
+        
+        if (weldHit == null || (!weldTransform.CompareTag("weldable") 
+                                || !weldTransform.CompareTag("weldPoint") 
+                                || !weldTransform.CompareTag("weldBead")))
         {
             distance = 0f;
             angle = 0f;

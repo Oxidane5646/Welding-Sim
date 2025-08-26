@@ -34,8 +34,8 @@ public class WeldObjectsInitializer : MonoBehaviour
 
     private void DestroyExistingObjects()
     {
-        if (currentWeldSpawner != null) Destroy(currentWeldSpawner.gameObject);
-        if (currentJoinPlates != null) Destroy(currentJoinPlates.gameObject);
+        if (currentWeldSpawner) Destroy(currentWeldSpawner.gameObject);
+        if (currentJoinPlates) Destroy(currentJoinPlates.gameObject);
     }
     
     //Move this function to the gameManager and give the gameobject spawned to the gamemanager to get the script references
@@ -45,6 +45,10 @@ public class WeldObjectsInitializer : MonoBehaviour
         currentWeldSpawner = currentWeldSetup?.GetComponent<WeldSpawner>();
         weldParticles = currentWeldSetup?.GetComponentInChildren<ParticleSystem>();
         currentParametersCalculator = currentWeldSetup?.GetComponent<ParameterCalculator>();
+        if (!currentJoinPlates) return;
+        if (!currentWeldSpawner) return;
+        //Bad subscrption of event and bad referencing 
+        currentWeldSpawner.OnWeldRaycastHit += currentJoinPlates.TryJoinWeldObject;
     }
     
 
@@ -81,6 +85,11 @@ public class WeldObjectsInitializer : MonoBehaviour
     public ParameterCalculator GetParametersCalculator()
     {
         return currentParametersCalculator;
+    }
+
+    public JoinPlates GetJoinPlates()
+    {
+        return currentJoinPlates;
     }
     
     #endregion
